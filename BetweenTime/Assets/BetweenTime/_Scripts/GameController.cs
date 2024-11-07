@@ -94,11 +94,8 @@ namespace BetweenTime._Scripts
             mainState.onChange.AddListener(value =>
             {
                 Debug.Log($"Main state changed to {value}");
-                if (value == MainState.Started) Timer = timerDuration; // 5 minutes
+                if (value == MainState.Idle) Timer = timerDuration; // 5 minutes
             });
-
-            // Set the initial state of the game to Idle
-            mainState.Value = MainState.Idle;
 
             // Connect to the MQTT broker and set up the MQTT communication for all states
             try
@@ -115,6 +112,11 @@ namespace BetweenTime._Scripts
             {
                 Debug.LogError($"Error setting up MQTT communication: {e.Message}");
             }
+
+            // Set the initial state of the game to Idle
+            mainState.Value = MainState.Idle;
+            // Set the initial timer value
+            Timer = timerDuration;
         }
 
         /// <see cref="MonoBehaviour" />
