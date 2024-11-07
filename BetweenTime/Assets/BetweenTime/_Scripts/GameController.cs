@@ -2,6 +2,7 @@
 using BetweenTime._Scripts.@base;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace BetweenTime._Scripts
@@ -14,10 +15,11 @@ namespace BetweenTime._Scripts
         private static GameController _instance; // Underlying field for the singleton instance
 
 
-        [Tooltip("MQTT host address")] public string mqttHost;
+        [Tooltip("MQTT host address")] [SerializeField]
+        private string mqttHost;
 
-        [Tooltip("Duration of the game's timer in seconds")]
-        public int duration = 300;
+        [Tooltip("Duration of the game's timer in seconds")] [SerializeField]
+        private int timerDuration = 300;
 
         [Tooltip("The current time on the game's timer")] [ReadOnly] [SerializeField]
         private float timer;
@@ -28,7 +30,8 @@ namespace BetweenTime._Scripts
         [Tooltip("The currently set timecode")]
         public State<short, BasicParser<short>> timecodeState = new();
 
-        [Tooltip("The state of the candles")] public State<Candles, Candles.Parser> candlesState = new();
+        [Tooltip("The current state of the candles")]
+        public State<Candles, Candles.Parser> candlesState = new();
 
         [Tooltip("The current position of the player in the maze")]
         public State<MazePosition, MazePosition.Parser> mazePositionsState = new();
@@ -58,7 +61,7 @@ namespace BetweenTime._Scripts
         public bool Running => mainState.Value is not (MainState.Idle or MainState.GameWon or MainState.GameLost);
 
         /// <summary>
-        ///     The remaining time on the game's timer
+        ///     The remaining time on the game's timer (in seconds)
         /// </summary>
         public float Timer
         {
@@ -91,7 +94,7 @@ namespace BetweenTime._Scripts
             mainState.onChange.AddListener(value =>
             {
                 Debug.Log($"Main state changed to {value}");
-                if (value == MainState.Started) Timer = duration; // 5 minutes
+                if (value == MainState.Started) Timer = timerDuration; // 5 minutes
             });
 
             // Set the initial state of the game to Idle

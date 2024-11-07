@@ -23,8 +23,8 @@ namespace BetweenTime._Scripts
     [Serializable]
     public class State<T, TParser> where TParser : IParser<T>, new()
     {
-        [Tooltip("The topic to use for MQTT communication")]
-        public string topic;
+        [Tooltip("The topic to use for MQTT communication")] [SerializeField]
+        private string topic;
 
         [Tooltip("The current value of the state")] [ReadOnly] [SerializeField]
         private string value = "NAN"; // primarily used for visualizing the value in the inspector
