@@ -84,7 +84,7 @@ The different states each hold a different value type:
 - The `mainState` holds a value of the [`MainState` enum](base/MainState.cs)
 - The `timecodeState` holds a simple integer representing the current timecode value
 - The `candlesState` holds a value of the [`Candles` record](base/Candles.cs), which represents the state of each candle
-  as a bitfield. The state for each candle [0,3] can be accessed using the Unity index operator:
+  as a bitfield. The state for each candle [0,3] can be accessed using the index operator:
   ```csharp
   // check if candle #2 is lit
   if (GameController.Instance.candlesState.Value[1]) {
@@ -114,4 +114,13 @@ Each state is shown as a field of the GameController inside the Unity inspector 
 Fo testing purposes, a custom debug console was implemented. The console can be opened during gameplay using the `F1`
 key, and allows for the execution of custom commands.
 
-The list of commands can be set inside the 
+When the command line interface is shown, the value for commands accepting a parameter can be entered and different
+commands can be selected using the `Tab` key. Pressing the `Return` key will execute the command.
+
+The list of commands can be set inside the inspector for the `DebugConsole` game object. By default, the following
+commands for the GameController are implemented:
+
+- `mainState`: Set the current main state. Accepts the state as either a numeric value or its string representation (
+  case-insensitive).
+- `Timer`: Set the current value of the game's timer. Must be an integer value.
+- `quit`: Quit the application or sets the playing state of the Unity editor to false. Accepts no parameter value.
