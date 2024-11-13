@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Text;
 using BetweenTime._Scripts.@base;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +18,9 @@ namespace BetweenTime._Scripts
 
         [Tooltip("MQTT host address")] [SerializeField]
         private string mqttHost;
+
+        [Tooltip("Topic to publishing current timer value to")] [SerializeField]
+        private string timerTopic;
 
         [Tooltip("Duration of the game's timer in seconds")] [SerializeField]
         private int timerDuration = 300;
@@ -40,6 +45,7 @@ namespace BetweenTime._Scripts
 
 
         private MqttClient _client; // The MQTT client to use for communication
+        private float _intervalTimer; // For publishing timer value every second
 
 
         /// <summary>
@@ -93,7 +99,9 @@ namespace BetweenTime._Scripts
             mainState.onChange.AddListener(value =>
             {
                 Debug.Log($"Main state changed to {value}");
-                if (value == MainState.Idle) Timer = timerDuration; // 5 minutes
+                if (value != MainState.Idle) return;
+                Timer = timerDuration; // 5 minutes
+                _intervalTimer = 1; // force timer publish on next update
             });
 
             // Connect to the MQTT broker and set up the MQTT communication for all states
@@ -125,6 +133,17 @@ namespace BetweenTime._Scripts
             if (!Running) return;
 
             Timer -= Time.deltaTime; // Count down the timer
+
+            // publish current time value every second
+            if (_intervalTimer >= 1)
+            {
+                var message = Encoding.UTF8.GetBytes(timer.ToString("0."));
+                _client.Publish(timerTopic, message, 0, false);
+            }
+            else
+            {
+                _intervalTimer += Time.deltaTime;
+            }
 
             if (Timer > 0) return;
             // Timer has run out while the game was not won, so the game is lost

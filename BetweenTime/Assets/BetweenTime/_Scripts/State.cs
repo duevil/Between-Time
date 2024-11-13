@@ -49,7 +49,7 @@ namespace BetweenTime._Scripts
                 // Only update the value and invoke the onChange event if the value has changed
                 if (value is null || _comparer.Equals(_value, value)) return;
                 this.value = _parser.To(value);
-                onChange.Invoke(value);
+                onChange?.Invoke(value);
                 _value = value;
             }
         }
