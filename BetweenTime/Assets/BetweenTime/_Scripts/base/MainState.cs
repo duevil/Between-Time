@@ -11,14 +11,15 @@ namespace BetweenTime._Scripts.@base
         Started = 1,
         InputFieldOpened = 2,
         InputFieldSolved = 3,
-        CandlesSolved = 4,
-        BookBinarySolved = 5,
-        MazeActive = 6,
-        MazeSolved = 7,
-        ArcadeUnlocked = 8,
-        AllItemsScanned = 9,
-        GameWon = 10,
-        GameLost = 11
+        CandlesPlaced = 4,
+        CandlesSolved = 5,
+        BookBinarySolved = 6,
+        MazeActive = 7,
+        MazeSolved = 8,
+        ArcadeUnlocked = 9,
+        AllItemsScanned = 10,
+        GameWon = 11,
+        GameLost = 12
     }
 
     /// <summary>
