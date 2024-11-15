@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 using BetweenTime._Scripts.@base;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace BetweenTime._Scripts
@@ -29,10 +29,10 @@ namespace BetweenTime._Scripts
         private float timer;
 
         [Tooltip("The game's main state machine's current state")]
-        public MutableState<MainState, MainStateParser> mainState = new();
+        public State<MainState, MainStateParser> mainState = new();
 
         [Tooltip("The currently set timecode")]
-        public State<short, BasicParser<short>> timecodeState = new();
+        public State<ushort, BasicParser<ushort>> timecodeState = new();
 
         [Tooltip("The current state of the candles")]
         public State<Candles, Candles.Parser> candlesState = new();
@@ -43,6 +43,8 @@ namespace BetweenTime._Scripts
         [Tooltip("The number of items scanned by the player")]
         public State<byte, BasicParser<byte>> scannedItemsState = new();
 
+        [Tooltip("Event that is invoked when the timer value changes")] [SerializeField]
+        private UnityEvent<float> timerEvent = new(); // Event for timer value changes
 
         private MqttClient _client; // The MQTT client to use for communication
         private float _intervalTimer; // For publishing timer value every second
@@ -71,80 +73,88 @@ namespace BetweenTime._Scripts
         public float Timer
         {
             get => timer;
-            private set => timer = value;
+            private set
+            {
+                timer = Mathf.Max(0, value);
+                timerEvent.Invoke(timer);
+            }
         }
 
 
+        /// <summary>
+        ///     Initializes the GameController singleton instance, sets up state change listeners and MQTT communication
+        ///     and initializes states values
+        /// </summary>
         private void Awake()
         {
             // Singleton pattern to ensure only one instance of GameController exists
-            if (Instance == null)
+            if (Instance != null)
             {
-                // No instance exists, set this as the instance and ensure it persists between scenes
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (Instance != this)
-            {
+                if (Instance == this) return;
                 Debug.LogWarning("GameController already exists, destroying this instance");
                 Destroy(gameObject); // An instance already exists, destroy this one
+                return;
             }
-        }
 
-        /// <see cref="MonoBehaviour" />
-        /// Start method
-        private void Start()
-        {
-            // Listen to main state changes to reset the timer when the game starts
+            // No instance exists, set this as the instance and ensure it persists between scenes
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            IState[] states = { mainState, timecodeState, candlesState, mazePositionsState, scannedItemsState };
+
+            // Add a listener to the main state to handle state changes
             mainState.onChange.AddListener(value =>
             {
                 Debug.Log($"Main state changed to {value}");
                 if (value != MainState.Idle) return;
-                Timer = timerDuration; // 5 minutes
-                _intervalTimer = 1; // force timer publish on next update
+                foreach (var state in states)
+                {
+                    if (state.Equals(mainState)) continue; // Skip the main state
+                    state.Reset(); // Reset all states to their initial values
+                    state.PublishValue(_client);
+                }
+
+                _intervalTimer = 1; // Force publishing the timer value when reset
+                Timer = timerDuration; // Reset the timer
             });
 
             // Connect to the MQTT broker and set up the MQTT communication for all states
             try
             {
                 _client = new MqttClient(mqttHost);
-                _client.Connect(Guid.NewGuid().ToString());
-                mainState.SetupMqtt(_client);
-                timecodeState.SetupMqtt(_client);
-                candlesState.SetupMqtt(_client);
-                mazePositionsState.SetupMqtt(_client);
-                scannedItemsState.SetupMqtt(_client);
+                _client.Connect("unity-" + Guid.NewGuid());
+                // Set up MQTT communication for all states
+                foreach (var state in states)
+                {
+                    // Reset to and publish the initial value to the topic to ensure it's the latest retained value
+                    state.Reset();
+                    state.PublishValue(_client);
+                    state.SetupMqtt(_client);
+                }
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error setting up MQTT communication: {e.Message}");
+                Debug.LogError($"Error setting up MQTT communication: {e}");
             }
 
-            // Set the initial state of the game to Idle
-            mainState.Value = MainState.Idle;
-            // Set the initial timer value
-            Timer = timerDuration;
+            Timer = timerDuration; // Set the timer to the initial duration
+            timerEvent.AddListener(value =>
+            {
+                if (_intervalTimer < 1) return;
+                var message = Encoding.UTF8.GetBytes(value.ToString("0."));
+                _client.Publish(timerTopic, message, 0, false);
+            }); // Add listener to timer event to publish the timer value every second
         }
 
-        /// <see cref="MonoBehaviour" />
-        /// Update method
+        /// <summary>
+        ///     Updates the timer, publishes the current time value to the MQTT broker every second
+        ///     and checks if the game is lost
+        /// </summary>
         private void Update()
         {
             if (!Running) return;
-
             Timer -= Time.deltaTime; // Count down the timer
-
-            // publish current time value every second
-            if (_intervalTimer >= 1)
-            {
-                var message = Encoding.UTF8.GetBytes(timer.ToString("0."));
-                _client.Publish(timerTopic, message, 0, false);
-            }
-            else
-            {
-                _intervalTimer += Time.deltaTime;
-            }
-
+            if (_intervalTimer < 1) _intervalTimer += Time.deltaTime;
             if (Timer > 0) return;
             // Timer has run out while the game was not won, so the game is lost
             Debug.Log("Game over");
@@ -155,7 +165,7 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     Helper method to set the main state from debug console commands
         /// </summary>
-        /// <param name="value">The new main state's value; must be parsable to an integer or the enum name/// </param>
+        /// <param name="value">The new main state's value; must be parsable to an integer or the enum name</param>
         public void SetMainState(string value)
         {
             if (Enum.TryParse<MainState>(value, true, out var enumValue))
@@ -167,7 +177,7 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     Helper method to set the timer from debug console commands
         /// </summary>
-        /// <param name="value">The new timer value as a string; must be parsable to an integer/// </param>
+        /// <param name="value">The new timer value as a string; must be parsable to an integer</param>
         public void SetTimer(string value)
         {
             if (int.TryParse(value, out var intValue))

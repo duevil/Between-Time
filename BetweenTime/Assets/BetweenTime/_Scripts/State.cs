@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using BetweenTime._Scripts.@base;
 using UnityEngine;
@@ -9,25 +10,34 @@ using uPLibrary.Networking.M2Mqtt;
 namespace BetweenTime._Scripts
 {
     /// <summary>
-    ///     Class for representing a readonly state to be transmitted over MQTT
+    ///     Interface for a MQTT state
+    /// </summary>
+    internal interface IState
+    {
+        void SetupMqtt(MqttClient client);
+        void PublishValue(MqttClient client);
+        void Reset();
+    }
+
+    /// <summary>
+    ///     Class for representing a state to be transmitted over MQTT
     /// </summary>
     /// <p>
     ///     For MQTT communication details, see <see cref="SetupMqtt" />
     /// </p>
-    /// <typeparam name="T">The type of value to represent</typeparam>
+    /// <typeparam name="T">The type of value to represent; must have a parameterless/default constructor</typeparam>
     /// <typeparam name="TParser">
     ///     The parser to use for converting values to and from strings;
     ///     must implement <see cref="IParser{T}" /> and have a parameterless constructor
     /// </typeparam>
-    /// <seealso cref="MutableState{T,TParser}" />
     [Serializable]
-    public class State<T, TParser> where TParser : IParser<T>, new()
+    public class State<T, TParser> : IState where T : new() where TParser : IParser<T>, new()
     {
         [Tooltip("The topic to use for MQTT communication")] [SerializeField]
         private string topic;
 
         [Tooltip("The current value of the state")] [ReadOnly] [SerializeField]
-        private string value = "NAN"; // primarily used for visualizing the value in the inspector
+        private string value; // string representation of the value
 
         [Tooltip("Event that is invoked when the value changes")]
         public UnityEvent<T> onChange = new();
@@ -36,20 +46,20 @@ namespace BetweenTime._Scripts
         private IEqualityComparer<T> _comparer = EqualityComparer<T>.Default;
         private TParser _parser = new(); // The parser to use for converting values to and from strings
 
-        private T _value; // Underlying field for the Value property
+        [NotNull] private T _value = new(); // Underlying field for the Value property; never null
 
         /// <summary>
-        ///     The current value of the state; read-only
+        ///     The current value of the state
         /// </summary>
         public T Value
         {
             get => _value;
-            private protected set
+            set
             {
                 // Only update the value and invoke the onChange event if the value has changed
                 if (value is null || _comparer.Equals(_value, value)) return;
-                this.value = _parser.To(value);
-                onChange?.Invoke(value);
+                // Enqueue the onChange event to run on the main thread
+                MainThreadInvoker.Enqueue(() => onChange?.Invoke(value));
                 _value = value;
             }
         }
@@ -72,35 +82,27 @@ namespace BetweenTime._Scripts
                 Value = _parser.From(v);
             };
             // Add a listener to the onChange event to publish the new value to the topic
-            onChange.AddListener(_ =>
-            {
-                var message = Encoding.UTF8.GetBytes(value);
-                Debug.Log($"Publishing message on topic {topic}: {value}");
-                client.Publish(topic, message, 0, true);
-            });
+            onChange.AddListener(_ => PublishValue(client));
         }
-    }
 
-
-    /// <summary>
-    ///     Class for representing a mutable state to be transmitted over MQTT
-    /// </summary>
-    /// <typeparam name="T">The type of value to represent</typeparam>
-    /// <typeparam name="TParser">
-    ///     The parser to use for converting values to and from strings;
-    ///     must implement <see cref="IParser{T}" /> and have a parameterless constructor
-    /// </typeparam>
-    /// <seealso cref="State{T,TParser}" />
-    [Serializable]
-    public class MutableState<T, TParser> : State<T, TParser> where TParser : IParser<T>, new()
-    {
         /// <summary>
-        ///     The current value of the state; can be set
+        ///     Publishes the current value to the topic
         /// </summary>
-        public new T Value
+        /// <param name="client">The MQTT client to use for communication</param>
+        public void PublishValue(MqttClient client)
         {
-            get => base.Value;
-            set => base.Value = value;
+            value = _parser.To(_value);
+            var message = Encoding.UTF8.GetBytes(value);
+            Debug.Log($"Publishing message on topic {topic}: {value}");
+            client.Publish(topic, message, 0, true);
+        }
+
+        /// <summary>
+        ///     Resets the state to its default value
+        /// </summary>
+        public void Reset()
+        {
+            Value = new T();
         }
     }
 }

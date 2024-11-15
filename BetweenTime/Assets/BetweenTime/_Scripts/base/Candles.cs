@@ -6,6 +6,11 @@
     /// <param name="Value">The state of the candles as a bitfield</param>
     public record Candles(byte Value)
     {
+        /// <summary>
+        ///     Default constructor; initializes the candles to all off
+        /// </summary>
+        public Candles() : this(0) { }
+
         /// Integer representing the state of the candles as a bitfield
         private byte Value { get; } = Value;
 

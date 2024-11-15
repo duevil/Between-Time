@@ -8,6 +8,11 @@
     public record MazePosition(int X, int Y)
     {
         /// <summary>
+        ///     Default constructor; initializes the position to (0, 0)
+        /// </summary>
+        public MazePosition() : this(0, 0) { }
+
+        /// <summary>
         ///     The horizontal position
         /// </summary>
         public int X { get; } = X;
