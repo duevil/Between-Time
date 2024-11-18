@@ -143,6 +143,7 @@ namespace BetweenTime._Scripts
                 if (_intervalTimer < 1) return;
                 var message = Encoding.UTF8.GetBytes(value.ToString("0."));
                 _client.Publish(timerTopic, message, 0, false);
+                _intervalTimer = 0;
             }); // Add listener to timer event to publish the timer value every second
         }
 
