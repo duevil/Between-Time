@@ -1,95 +1,95 @@
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
-public class buttonManager : MonoBehaviour
+namespace BetweenTime._Scripts.maya
 {
-    // Button Manager
-    // manages the characteristics and the input of the buttons
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class ButtonManager : MonoBehaviour
     {
-        // hide buttons at the beginning
-        moveButtons(-0.15f);
-        buttonColliders(false);
-    }
+        // Button Manager
+        // manages the characteristics and the input of the buttons
 
-    public void moveButtons(float distance)
-    {
-        foreach (Transform child in transform)
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Start()
         {
-            child.gameObject.GetComponent<isButton>().move(distance);
+            // hide buttons at the beginning
+            MoveButtons(-0.15f);
+            ButtonColliders(false);
         }
-    }
 
-    public Maya maya;
-
-    string solution = "485361";
-    public string input = "";
-    public int count = 0;
-
-    public void increaseCount()
-    {
-        count++;
-
-        if (count == 6)
+        public void MoveButtons(float distance)
         {
-            if (solution == input)
+            foreach (Transform child in transform)
             {
-                maya.finishesMaya();
+                child.gameObject.GetComponent<Button>().Move(distance);
+            }
+        }
+
+        public Maya maya;
+
+        private const string Solution = "485361";
+        public string input = "";
+        public int count;
+
+        public void IncreaseCount()
+        {
+            count++;
+
+            if (count != 6) return;
+            if (Solution == input)
+            {
+                maya.FinishesMaya();
             }
             else
             {
-                resetNumPad();
+                ResetNumPad();
             }
         }
-    }
 
-    public void resetNumPad()
-    {
-        input = "";
-        count = 0;
-
-        resetButtons();
-    }
-
-    public void buttonColliders(bool value)
-    {
-        foreach (Transform child in transform)
+        public void ResetNumPad()
         {
-            child.GetComponent<Collider>().enabled = value;
+            input = "";
+            count = 0;
+
+            ResetButtons();
         }
-    }
 
-    private void resetButtons()
-    {
-        foreach (Transform child in transform)
+        public void ButtonColliders(bool value)
         {
-            child.GetComponent<isButton>().Unpress();
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<Collider>().enabled = value;
+            }
         }
-    }
 
-    public void activateSymbols()
-    {
-        foreach (Transform child in transform)
+        private void ResetButtons()
         {
-            
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<Button>().Unpress();
+            }
         }
-    }
 
-    public void hint()
-    {
-        foreach (Transform child in transform)
+        public void ActivateSymbols()
         {
-            print("in hint");
-            isButton button = child.GetComponent<isButton>();
-            int number = button.buttonNumber;
-            print(number);
+            foreach (Transform child in transform)
+            {
+                 // TODO
+            }
+        }
 
-            if (number < 5 || number > 8) continue;
+        public void Hint()
+        {
+            foreach (Transform child in transform)
+            {
+                print("in hint");
+                var button = child.GetComponent<BetweenTime._Scripts.maya.Button>();
+                var number = button.buttonNumber;
+                print(number);
+
+                if (number is < 5 or > 8) continue;
 
 
-            button.move(0.3f);
+                button.Move(0.3f);
+            }
         }
     }
 }

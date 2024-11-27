@@ -1,77 +1,77 @@
 using BetweenTime._Scripts.@base;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // manages the atztec puzzle
-public class Maya : MonoBehaviour
+namespace BetweenTime._Scripts.maya
 {
-    public string syncCode = "dc3e";
-    bool isSynced = false;
-    bool isSolved = false;
-
-    bool symbolsActivated = false;
-    
-    public stairManager stairManager;
-    public buttonManager buttonManager;
-
-    public GameObject TimeCube;
-
-    // handles the change of the timecode and activates or deactivates the puzzle
-    public void syncManager(ushort value)
+    public class Maya : MonoBehaviour
     {
-        if (isSolved) return;
+        private const ushort Timecode = 0xdc3e;
+        private bool _isSynced;
+        private bool _isSolved;
 
-        string timecode = value.ToString("X4");
+        private bool _symbolsActivated;
+    
+        public stairManager stairManager;
+        public ButtonManager buttonManager;
 
-        if(!(syncCode == timecode))
+        public GameObject timeCube;
+
+        // handles the change of the timecode and activates or deactivates the puzzle
+        public void SyncManager(ushort value)
         {
-            if (isSynced)
+            if (_isSolved) return;
+
+            if(Timecode != value)
             {
-                disableNumPad();
-                isSynced = false;
+                if (!_isSynced) return;
+            
+                DisableNumPad();
+                _isSynced = false;
                 return;
             }
-            return;
+        
+            EnableNumPad();
+            _isSynced = true;
         }
+
+        // activates the puzzle
+        public void EnableNumPad()
+        {   
+            // movement to the right position
+            stairManager.rotateStairs(0);
+            buttonManager.MoveButtons(0.3f);
+            buttonManager.ButtonColliders(true);
+        }
+
+        // deactivates and resets the puzzle
+        public void DisableNumPad() 
+        {
+            buttonManager.ResetNumPad();
+            buttonManager.MoveButtons(-0.3f);
+            buttonManager.ButtonColliders(false);
+            stairManager.rotateStairs(45);
+        }
+
+        public void HandleMainState(MainState value)
+        {
+            if (_symbolsActivated) return;
+            if (value != MainState.InputFieldOpened) return;
         
-        enableNumPad();
-        isSynced = true;
-        return;
-    }
+            buttonManager.ActivateSymbols();
+            _symbolsActivated = true;
+        }
 
-    // activates the puzzle
-    public void enableNumPad()
-    {   
-        // movement to the right position
-        stairManager.rotateStairs(0);
-        buttonManager.moveButtons(0.3f);
-        buttonManager.buttonColliders(true);
-    }
-
-    // deactivates and resets the puzzle
-    public void disableNumPad() 
-    {
-        buttonManager.resetNumPad();
-        buttonManager.moveButtons(-0.3f);
-        buttonManager.buttonColliders(false);
-        stairManager.rotateStairs(45);
-        return;
-    }
-
-    public void handleMainState(MainState value)
-    {
-        if (symbolsActivated) return;
-        if (!(value == MainState.InputFieldOpened)) return;
-        
-        buttonManager.activateSymbols();
-        symbolsActivated = true;
-    }
-
-    // finishes the puzzle
-    public void finishesMaya()
-    {
-        disableNumPad();
-        TimeCube.GetComponent<Collider>().enabled = true;
-        TimeCube.GetComponent<Rigidbody>().isKinematic = false;
-        buttonManager.hint();
+        // finishes the puzzle
+        public void FinishesMaya()
+        {
+            DisableNumPad();
+            timeCube.GetComponent<Collider>().enabled = true;
+            timeCube.GetComponent<Rigidbody>().isKinematic = false;
+            buttonManager.Hint();
+            _isSolved = true;
+            GameController.Instance.mainState.Value = MainState.InputFieldSolved;
+        }
     }
 }
