@@ -1,7 +1,9 @@
 using System;
 using BetweenTime._Scripts.@base;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace BetweenTime._Scripts
 {
@@ -62,6 +64,19 @@ namespace BetweenTime._Scripts
         public void UpdateTimerText(float value)
         {
             timerText.text = TimeSpan.FromSeconds(value).ToString(@"m\:ss\.ff");
+        }
+
+        public static void OnActivate(ActivateEventArgs _)
+        {
+            switch (GameController.Instance.mainState.Value)
+            {
+                case MainState.Idle:
+                    GameController.Instance.mainState.Value = MainState.Started;
+                    break;
+                case MainState.GameWon or MainState.GameLost:
+                    GameController.Instance.RestartGame();
+                    break;
+            }
         }
     }
 }

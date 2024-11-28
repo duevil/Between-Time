@@ -4,6 +4,7 @@ using BetweenTime._Scripts.@base;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace BetweenTime._Scripts
@@ -205,6 +206,13 @@ namespace BetweenTime._Scripts
 #else
             Application.Quit();
 #endif
+        }
+
+        public void RestartGame()
+        {
+            Debug.Log("Restarting game");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            mainState.Value = MainState.Idle;
         }
     }
 }

@@ -25,6 +25,8 @@ namespace BetweenTime._Scripts
                 material.color = color;
                 material.SetColor(EmissionColor, color);
             }
+            
+            GetComponentInChildren<Light>().color = color;
         }
     }
 }
