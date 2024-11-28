@@ -4,17 +4,23 @@ namespace BetweenTime._Scripts.maya
 {
     public class Button : MonoBehaviour
     {
-        public ButtonManager bM;
+        public MayaController mayaController;
         public int buttonNumber;
         public bool isPressed;
 
-        public void triggered()
+        // registers the button in mayaController
+        private void Start()
+        {
+            MayaController.buttons.Add(this);
+        }
+
+        public void Triggered()
         {
             isPressed = true;
             print("button " + buttonNumber + " was pressed");
-            bM.input += buttonNumber;
+            mayaController.input += buttonNumber;
             Press();
-            bM.IncreaseCount();
+            mayaController.IncreaseCount();
         }
 
         // visibly presses the button    

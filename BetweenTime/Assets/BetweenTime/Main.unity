@@ -774,7 +774,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 572035758}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1362,7 +1362,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 734369679}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2732,7 +2732,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1010949862}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4369,7 +4369,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1432446177}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4748,7 +4748,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1547466184}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5411,7 +5411,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1743065119}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12265,7 +12265,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1791789526}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12571,7 +12571,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1840394981}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12987,7 +12987,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1921907147}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13256,7 +13256,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2088856978}
         m_TargetAssemblyTypeName: isButton, Assembly-CSharp
-        m_MethodName: triggered
+        m_MethodName: Triggered
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

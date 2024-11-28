@@ -8,8 +8,8 @@ namespace BetweenTime._Scripts.maya
     {
         private const ushort Timecode = 0xdc3e;
 
-        public stairManager stairManager;
-        public ButtonManager buttonManager;
+        [SerializeField]
+        private MayaController mayaController;
 
         public GameObject timeCube;
         private bool _isSolved;
@@ -39,18 +39,18 @@ namespace BetweenTime._Scripts.maya
         public void EnableNumPad()
         {
             // movement to the right position
-            stairManager.rotateStairs(0);
-            buttonManager.MoveButtons(0.3f);
-            buttonManager.ButtonColliders(true);
+            mayaController.RotateStairs(0);
+            mayaController.MoveButtons(0.3f);
+            mayaController.ButtonColliders(true);
         }
 
         // deactivates and resets the puzzle
         public void DisableNumPad()
         {
-            buttonManager.ResetNumPad();
-            buttonManager.MoveButtons(-0.3f);
-            buttonManager.ButtonColliders(false);
-            stairManager.rotateStairs(45);
+            mayaController.ResetNumPad();
+            mayaController.MoveButtons(-0.3f);
+            mayaController.ButtonColliders(false);
+            mayaController.RotateStairs(45);
         }
 
         public void HandleMainState(MainState value)
@@ -58,17 +58,17 @@ namespace BetweenTime._Scripts.maya
             if (_symbolsActivated) return;
             if (value != MainState.InputFieldOpened) return;
 
-            buttonManager.ActivateSymbols();
+            mayaController.ActivateSymbols();
             _symbolsActivated = true;
         }
 
         // finishes the puzzle
-        public void FinishesMaya()
+        public void FinishMaya()
         {
             DisableNumPad();
             timeCube.GetComponent<Collider>().enabled = true;
             timeCube.GetComponent<Rigidbody>().isKinematic = false;
-            buttonManager.Hint();
+            mayaController.Hint();
             _isSolved = true;
             GameController.Instance.mainState.Value = MainState.InputFieldSolved;
         }
