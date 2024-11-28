@@ -1,6 +1,5 @@
 using BetweenTime._Scripts.@base;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 // manages the atztec puzzle
 namespace BetweenTime._Scripts.maya
@@ -8,37 +7,37 @@ namespace BetweenTime._Scripts.maya
     public class Maya : MonoBehaviour
     {
         private const ushort Timecode = 0xdc3e;
-        private bool _isSynced;
-        private bool _isSolved;
 
-        private bool _symbolsActivated;
-    
         public stairManager stairManager;
         public ButtonManager buttonManager;
 
         public GameObject timeCube;
+        private bool _isSolved;
+        private bool _isSynced;
+
+        private bool _symbolsActivated;
 
         // handles the change of the timecode and activates or deactivates the puzzle
         public void SyncManager(ushort value)
         {
             if (_isSolved) return;
 
-            if(Timecode != value)
+            if (Timecode != value)
             {
                 if (!_isSynced) return;
-            
+
                 DisableNumPad();
                 _isSynced = false;
                 return;
             }
-        
+
             EnableNumPad();
             _isSynced = true;
         }
 
         // activates the puzzle
         public void EnableNumPad()
-        {   
+        {
             // movement to the right position
             stairManager.rotateStairs(0);
             buttonManager.MoveButtons(0.3f);
@@ -46,7 +45,7 @@ namespace BetweenTime._Scripts.maya
         }
 
         // deactivates and resets the puzzle
-        public void DisableNumPad() 
+        public void DisableNumPad()
         {
             buttonManager.ResetNumPad();
             buttonManager.MoveButtons(-0.3f);
@@ -58,7 +57,7 @@ namespace BetweenTime._Scripts.maya
         {
             if (_symbolsActivated) return;
             if (value != MainState.InputFieldOpened) return;
-        
+
             buttonManager.ActivateSymbols();
             _symbolsActivated = true;
         }

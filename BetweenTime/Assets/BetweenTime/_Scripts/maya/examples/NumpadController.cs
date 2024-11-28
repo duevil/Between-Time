@@ -3,23 +3,17 @@ using UnityEngine;
 
 public class NumpadController : MonoBehaviour
 {
-    private List<int> input = new();
-    
-    
+    private readonly List<int> input = new();
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        foreach (var b in gameObject.GetComponentsInChildren<Button>())
-        {
-            b.OnClick = type => Input((int)type);
-        }
+        foreach (var b in gameObject.GetComponentsInChildren<Button>()) b.OnClick = type => Input((int)type);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private void Update() { }
 
     public void Input(int i)
     {

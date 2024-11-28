@@ -4,6 +4,12 @@ namespace BetweenTime._Scripts.maya
 {
     public class ButtonManager : MonoBehaviour
     {
+        private const string Solution = "485361";
+
+        public Maya maya;
+        public string input = "";
+
+        public int count;
         // Button Manager
         // manages the characteristics and the input of the buttons
 
@@ -17,17 +23,8 @@ namespace BetweenTime._Scripts.maya
 
         public void MoveButtons(float distance)
         {
-            foreach (Transform child in transform)
-            {
-                child.gameObject.GetComponent<Button>().Move(distance);
-            }
+            foreach (Transform child in transform) child.gameObject.GetComponent<Button>().Move(distance);
         }
-
-        public Maya maya;
-
-        private const string Solution = "485361";
-        public string input = "";
-        public int count;
 
         public void IncreaseCount()
         {
@@ -35,13 +32,9 @@ namespace BetweenTime._Scripts.maya
 
             if (count != 6) return;
             if (Solution == input)
-            {
                 maya.FinishesMaya();
-            }
             else
-            {
                 ResetNumPad();
-            }
         }
 
         public void ResetNumPad()
@@ -54,25 +47,19 @@ namespace BetweenTime._Scripts.maya
 
         public void ButtonColliders(bool value)
         {
-            foreach (Transform child in transform)
-            {
-                child.GetComponent<Collider>().enabled = value;
-            }
+            foreach (Transform child in transform) child.GetComponent<Collider>().enabled = value;
         }
 
         private void ResetButtons()
         {
-            foreach (Transform child in transform)
-            {
-                child.GetComponent<Button>().Unpress();
-            }
+            foreach (Transform child in transform) child.GetComponent<Button>().Unpress();
         }
 
         public void ActivateSymbols()
         {
             foreach (Transform child in transform)
             {
-                 // TODO
+                // TODO
             }
         }
 
@@ -81,7 +68,7 @@ namespace BetweenTime._Scripts.maya
             foreach (Transform child in transform)
             {
                 print("in hint");
-                var button = child.GetComponent<BetweenTime._Scripts.maya.Button>();
+                var button = child.GetComponent<Button>();
                 var number = button.buttonNumber;
                 print(number);
 

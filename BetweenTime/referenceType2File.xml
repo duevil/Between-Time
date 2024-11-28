@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTypeDate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TypeDate>
+    <guid>0c139e1a093c79b449f681e39724657d</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/AssetCollector.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1419654+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.AssetCollector</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>8d1de74cfcd40ae498a764b4a45206dc</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/AssetReferenceCollection.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1429662+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.AssetReferenceCollection</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>9b6b8fc6130bbe04ca6af21edf6766c9</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/ClassReferenceCollection.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1429662+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.ClassReferenceCollection</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>8e4b9c94241c7b1479444c42d2823e85</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/CollectionData.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1429662+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.CollectionData</string>
+      <string>UnitySweeper.TypeDate</string>
+      <string>UnitySweeper.IReferenceCollection</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>cb4b86ce6ad8ff048a8bf8fcc4519338</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/FindUnusedAssetsWindow.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1429662+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.FindUnusedAssetsWindow</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>049cf15b61fde7243965ec25bd2010da</guid>
+    <fileName>Assets/Plugins/unity-sweeper/UnitySweeper/Editor/ShaderReferenceCollection.cs</fileName>
+    <timeStamp>2024-11-27T23:48:15.1439666+01:00</timeStamp>
+    <typeFullName>
+      <string>UnitySweeper.ShaderReferenceCollection</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>8fd9c2f001bf4d689584bdb91f477015</guid>
+    <fileName>Assets/IsExternalInit.cs</fileName>
+    <timeStamp>2024-11-07T00:49:07.7933556+01:00</timeStamp>
+    <typeFullName>
+      <string>System.Runtime.CompilerServices.IsExternalInit</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>398434e4a50d5af478999e22c441bd7d</guid>
+    <fileName>Assets/ReadOnlyAttribute.cs</fileName>
+    <timeStamp>2024-11-07T04:02:22.1889503+01:00</timeStamp>
+    <typeFullName>
+      <string>ReadOnlyAttribute</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>54de9e3de472434c8b5aa6d2e5d340fa</guid>
+    <fileName>Assets/Editor/ReadOnlyDrawer.cs</fileName>
+    <timeStamp>2024-11-07T04:10:07.7284919+01:00</timeStamp>
+    <typeFullName>
+      <string>Editor.ReadOnlyDrawer</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp-Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>e665585d072546cebfbe17dfe7baaac2</guid>
+    <fileName>Assets/BetweenTime/_Scripts/DebugController.cs</fileName>
+    <timeStamp>2024-11-07T19:59:16.041357+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.DebugController</string>
+      <string>BetweenTime._Scripts.DebugController+Command</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>b1bd5edfba1707846b356855ba7baf2f</guid>
+    <fileName>Assets/BetweenTime/_Scripts/DistanceReset.cs</fileName>
+    <timeStamp>2024-11-27T23:01:43.8438925+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.DistanceReset</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>ca1107b41aac4267adc6f6b61029a037</guid>
+    <fileName>Assets/BetweenTime/_Scripts/GameController.cs</fileName>
+    <timeStamp>2024-11-18T07:07:47.00987+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.GameController</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>90382e6798c2d9e46aae988ce1659d47</guid>
+    <fileName>Assets/BetweenTime/_Scripts/MainThreadInvoker.cs</fileName>
+    <timeStamp>2024-11-15T22:08:23.8860526+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.MainThreadInvoker</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>b1d71d37243521f428d832faf94aa84d</guid>
+    <fileName>Assets/BetweenTime/_Scripts/Oscillator.cs</fileName>
+    <timeStamp>2024-11-27T21:25:15.1962252+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.Oscillator</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>dd5528af34e535748a0b0a1a2c24abde</guid>
+    <fileName>Assets/BetweenTime/_Scripts/SkyboxRotation.cs</fileName>
+    <timeStamp>2024-11-15T22:06:54.3035664+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.SkyboxRotation</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>a8a0e97917c161e4f92256d11a5d59bc</guid>
+    <fileName>Assets/BetweenTime/_Scripts/StartGame.cs</fileName>
+    <timeStamp>2024-11-27T20:43:20.2924867+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.StartGame</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>994584ed407d4bba819df1633bbfca1b</guid>
+    <fileName>Assets/BetweenTime/_Scripts/State.cs</fileName>
+    <timeStamp>2024-11-15T22:08:23.8940595+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.IState</string>
+      <string>BetweenTime._Scripts.State`2</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>1b76a84dea603b9478f1a96baa4221e2</guid>
+    <fileName>Assets/BetweenTime/_Scripts/UIController.cs</fileName>
+    <timeStamp>2024-11-15T22:08:23.8820483+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.UIController</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>5fea29bb7c508c244a1f805a5fd3fc4d</guid>
+    <fileName>Assets/QuickOutline/Scripts/Outline.cs</fileName>
+    <timeStamp>2024-11-20T17:00:49.2795701+01:00</timeStamp>
+    <typeFullName>
+      <string>Outline</string>
+      <string>Outline+Mode</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>4de3ca8a85ad430cb2cfdd33c476a8f7</guid>
+    <fileName>Assets/BetweenTime/_Scripts/base/BasicParser.cs</fileName>
+    <timeStamp>2024-11-07T19:59:15.834169+01:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>a56bd4a6a37d4ff389eec2521f9d2944</guid>
+    <fileName>Assets/BetweenTime/_Scripts/base/Candles.cs</fileName>
+    <timeStamp>2024-11-15T22:06:54.3095717+01:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>2412e3ebda394c4587a3226f29751589</guid>
+    <fileName>Assets/BetweenTime/_Scripts/base/IParser.cs</fileName>
+    <timeStamp>2024-11-07T19:59:15.8371717+01:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>453aca6a6aaa4dfea9059cde9ac0db3b</guid>
+    <fileName>Assets/BetweenTime/_Scripts/base/MainState.cs</fileName>
+    <timeStamp>2024-11-13T16:54:28.5948783+01:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>41c3be22a1e74f5393aec50de49f9172</guid>
+    <fileName>Assets/BetweenTime/_Scripts/base/MazePosition.cs</fileName>
+    <timeStamp>2024-11-15T22:06:54.3165786+01:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>3eec58e05c4adde4f8819504215bcaa7</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/Button.cs</fileName>
+    <timeStamp>2024-11-27T20:42:18.8880256+01:00</timeStamp>
+    <typeFullName>
+      <string>Button</string>
+      <string>Button+ButtonType</string>
+      <string>BetweenTime._Scripts.maya.Button</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>4b4dada13c5f7d44989ffd57711db751</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/buttonManager.cs</fileName>
+    <timeStamp>2024-11-27T20:42:16.6333789+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.maya.ButtonManager</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>d557dbd5fd1f4344a96a214e13867fcc</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/Maya.cs</fileName>
+    <timeStamp>2024-11-27T20:42:18.4876578+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.maya.Maya</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>3e2e0844209316e41aec7a952cc49cc3</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/stairManager.cs</fileName>
+    <timeStamp>2024-11-27T20:42:18.6037649+01:00</timeStamp>
+    <typeFullName>
+      <string>stairManager</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>e412893168efd7e4a96c060529b30957</guid>
+    <fileName>Assets/BetweenTime/_Scripts/medieval/Candle.cs</fileName>
+    <timeStamp>2024-11-27T23:39:31.9364674+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.medieval.Candle</string>
+      <string>BetweenTime._Scripts.medieval.Candle+CandleColor</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>ef07eff1d825d974a83873c7b515ce7c</guid>
+    <fileName>Assets/BetweenTime/_Scripts/medieval/CandleSocket.cs</fileName>
+    <timeStamp>2024-11-27T22:45:41.8069459+01:00</timeStamp>
+    <typeFullName>
+      <string>BetweenTime._Scripts.medieval.CandleSocket</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>2db8f00966b0b434f9c390bec60d6a5e</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/examples/Button.cs</fileName>
+    <timeStamp>2024-11-27T20:42:18.7679136+01:00</timeStamp>
+    <typeFullName>
+      <string>Button</string>
+      <string>Button+ButtonType</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>cd47734cd9d1ba24cbb6987fa6c46492</guid>
+    <fileName>Assets/BetweenTime/_Scripts/maya/examples/NumpadController.cs</fileName>
+    <timeStamp>2024-11-27T20:42:16.8038727+01:00</timeStamp>
+    <typeFullName>
+      <string>NumpadController</string>
+    </typeFullName>
+    <assembly>Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</assembly>
+  </TypeDate>
+  <TypeDate>
+    <guid>e766f86cb7d2461683eb37d8a971fb14</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/ClimbTeleportDestinationIndicator.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.715199+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>4a5f76f9ea8c80547973ab01877f9567</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/ControllerAnimator.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.715199+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>f9ac216f0eb04754b1d938aac6380b31</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/ControllerInputActionManager.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7162001+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>717c12e2a4cfe764ab2580b1135e10fd</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/DestroySelf.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7172011+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>9b1e8c997df241c1a67045eeac79b41b</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/DynamicMoveProvider.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7182018+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>6ef0e4723b64c884699a375196c13ac0</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/GazeInputManager.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7182018+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>e7883133e628dff4a86f50c082f77055</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/MaterialPipelineHandler.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7192028+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>956dd6cf70eaca449a45b6a95b96c8c1</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/ObjectSpawner.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7192028+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>4dd2e41114c62b44fbd334ca5b314352</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/RotationAxisLockGrabTransformer.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7202037+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>07b3638c2f5db5b479ff24c2859713d4</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Scripts/XRPokeFollowAffordance.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7212045+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>a907ece591e731e49b5d7be45f089972</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/XR Device Simulator/Scripts/XRDeviceSimulatorControllerUI.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7422238+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>f35ac646ecbef4ece8c3eac9e74e1828</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/XR Device Simulator/Scripts/XRDeviceSimulatorHandsUI.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7422238+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>e8b922481d9264546b97958b2c7cf0a0</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/XR Device Simulator/Scripts/XRDeviceSimulatorUI.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.7432248+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>ba6ff5e7c92519444bc2a7ca46558963</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/DemoSceneAssets/Scripts/IncrementUIText.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.642133+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>e001d3dc91354f8f8c590b4e1d1d3da9</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/DemoSceneAssets/Scripts/MultiAnchorTeleportReticle.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.6431334+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>7da98a0edd844d83b9b4de3f91de030c</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/DemoSceneAssets/Scripts/TeleportVolumeAnchorAffordanceStateLink.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.6441345+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+  <TypeDate>
+    <guid>ef67ceb22b2224643a2d5004fc2a678a</guid>
+    <fileName>Assets/Samples/XR Interaction Toolkit/3.0.5/Starter Assets/Editor/Scripts/StarterAssetsSampleProjectValidation.cs</fileName>
+    <timeStamp>2024-10-26T03:05:16.6811679+02:00</timeStamp>
+    <typeFullName />
+  </TypeDate>
+</ArrayOfTypeDate>

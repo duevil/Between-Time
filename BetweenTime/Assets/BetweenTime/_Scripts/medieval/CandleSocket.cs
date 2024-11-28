@@ -8,20 +8,19 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace BetweenTime._Scripts.medieval
 {
+    /// <summary>
+    ///     Class for handling a placement of a candle in a socket
+    /// </summary>
     public class CandleSocket : MonoBehaviour
     {
-        private const ushort Timecode = 0x4001;
+        private const ushort Timecode = 0x4001; // The timecode to sync for this puzzle
+        private static readonly List<Candle> Placed = new(); // The list of candles placed in the socket
 
-        private static readonly List<Candle.CandleColor> Colors = new()
-        {
-            Candle.CandleColor.Blue,
-            Candle.CandleColor.Green,
-            Candle.CandleColor.Magenta,
-            Candle.CandleColor.Cyan,
-        };
 
-        private static readonly List<Candle.CandleColor> Placed = new();
-
+        /// <summary>
+        ///     Initializes the socket's state to be inactive on start and subscribes to the game state changes
+        ///     to enable the socket when the input field is solved and the timecode is correct
+        /// </summary>
         private void Start()
         {
             var socket = GetComponent<XRSocketInteractor>();
@@ -32,26 +31,40 @@ namespace BetweenTime._Scripts.medieval
                 SetSocketState(socket, GameController.Instance.mainState.Value, value));
         }
 
+        /// <summary>
+        ///     XR Interaction Toolkit event handler for when an object is selected; adds the candle to the placed list,
+        ///     disables the socket collider trigger to avoid ugly highlighting, and if the correct candles are placed,
+        ///     sets the game state to CandlesPlaced and disables grabbing the placed candles
+        /// </summary>
+        /// <param name="args">The event arguments for the select enter event</param>
         public void OnSelectEntered(SelectEnterEventArgs args)
         {
             var candle = args.interactableObject.ConvertTo<Candle>();
-            candle.isPlaced = true;
-            Placed.Add(candle.color);
+            Placed.Add(candle);
             GetComponent<Collider>().isTrigger = false;
-            if (Colors.All(color => Placed.Contains(color)))
-            {
-                GameController.Instance.mainState.Value = MainState.CandlesPlaced;
-            }
+
+            // Check if all the correct candles are placed
+            if (!Candle.ColorOrder.All(color => Placed.Exists(c => c.Color == color))) return;
+            Placed.ToList().ForEach(c => c.Freeze()); // Freeze all placed candles
+            GameController.Instance.mainState.Value = MainState.CandlesPlaced;
         }
 
+        /// <summary>
+        ///     XR Interaction Toolkit event handler for when an object is deselected; removes the candle from the placed list
+        ///     and enables the socket collider to allow for placing another candle
+        /// </summary>
+        /// <param name="args">The event arguments for the select exit event</param>
         public void OnSelectExited(SelectExitEventArgs args)
         {
             var candle = args.interactableObject.ConvertTo<Candle>();
-            candle.isPlaced = false;
-            Placed.Remove(candle.color);
+            Placed.Remove(candle);
             GetComponent<Collider>().isTrigger = true;
         }
 
+
+        /// <summary>
+        ///     Sets the socket's state to active if the main state is InputFieldSolved and the timecode is correct
+        /// </summary>
         private static void SetSocketState(XRSocketInteractor socket, MainState mainState, ushort timecode)
         {
             socket.socketActive = mainState == MainState.InputFieldSolved && timecode == Timecode;

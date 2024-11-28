@@ -13,10 +13,10 @@ namespace BetweenTime._Scripts
         [Tooltip("The amplitude of the object's oscillation")] [SerializeField]
         private float amplitude = 0.00001f;
 
-        [Tooltip("The velocity of the object")] [SerializeField] [ReadOnly]
-        private float velocity;
+        private Rigidbody _rb; // The object's rigidbody
 
-        private Rigidbody _rb;
+        /// Random offset to prevent all objects from oscillating in sync
+        private float _yOffset;
 
         /// <summary>
         ///     Initializes the object's rigidbody
@@ -24,6 +24,7 @@ namespace BetweenTime._Scripts
         private void Start()
         {
             _rb = GetComponent<Rigidbody>();
+            _yOffset = Random.Range(0f, 2f * Mathf.PI);
         }
 
         /// <summary>
@@ -33,12 +34,11 @@ namespace BetweenTime._Scripts
         private void Update()
         {
             // Skip if the object is moving
-            velocity = _rb.linearVelocity.sqrMagnitude;
-            if (velocity > 0) return;
+            if (_rb.linearVelocity.sqrMagnitude > 0) return;
 
             // Oscillate the object up and down
             var position = transform.position;
-            position.y += Mathf.Sin(Time.time * speed) * amplitude;
+            position.y += Mathf.Sin(Time.time * speed + _yOffset) * amplitude;
             transform.position = position;
         }
     }
