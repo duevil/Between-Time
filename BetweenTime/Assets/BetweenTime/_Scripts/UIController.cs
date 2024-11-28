@@ -1,7 +1,6 @@
 using System;
 using BetweenTime._Scripts.@base;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -66,15 +65,21 @@ namespace BetweenTime._Scripts
             timerText.text = TimeSpan.FromSeconds(value).ToString(@"m\:ss\.ff");
         }
 
+        /// <summary>
+        ///     Event handler for the main trigger being activated; starts the game if the game is idle,
+        ///     restarts the game if the game is won or lost
+        /// </summary>
+        /// <param name="_">Activate event arguments; not used</param>
         public static void OnActivate(ActivateEventArgs _)
         {
-            switch (GameController.Instance.mainState.Value)
+            var gc = GameController.Instance;
+            switch (gc.mainState.Value)
             {
                 case MainState.Idle:
-                    GameController.Instance.mainState.Value = MainState.Started;
+                    gc.mainState.Value = MainState.Started;
                     break;
                 case MainState.GameWon or MainState.GameLost:
-                    GameController.Instance.RestartGame();
+                    gc.RestartGame();
                     break;
             }
         }

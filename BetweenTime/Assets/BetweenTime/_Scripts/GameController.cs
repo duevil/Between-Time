@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Globalization;
 using System.Text;
 using BetweenTime._Scripts.@base;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,13 +13,10 @@ using uPLibrary.Networking.M2Mqtt;
 namespace BetweenTime._Scripts
 {
     /// <summary>
-    ///     Singleton class that controls the game states and timer and handles MQTT communication
+    ///     Controller for the game states and timer and handles MQTT communication
     /// </summary>
     public class GameController : MonoBehaviour
     {
-        private static GameController _instance; // Underlying field for the singleton instance
-
-
         [Tooltip("MQTT host address")] [SerializeField]
         private string mqttHost;
 
@@ -47,21 +47,13 @@ namespace BetweenTime._Scripts
         [Tooltip("Event that is invoked when the timer value changes")] [SerializeField]
         private UnityEvent<float> timerEvent = new(); // Event for timer value changes
 
-        private MqttClient _client; // The MQTT client to use for communication
         private float _intervalTimer; // For publishing timer value every second
 
 
         /// <summary>
-        ///     The singleton instance of the GameController
+        ///     The current instance of the GameController
         /// </summary>
-        public static GameController Instance
-        {
-            get
-            {
-                if (_instance == null) Debug.LogWarning("GameController is null");
-                return _instance;
-            }
-        }
+        public static GameController Instance => GameObject.FindWithTag("GameController").ConvertTo<GameController>();
 
         /// <summary>
         ///     Whether the game is currently running, i.e. not in the Idle, GameWon or GameLost state
@@ -71,10 +63,10 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     The remaining time on the game's timer (in seconds)
         /// </summary>
-        public float Timer
+        private float Timer
         {
             get => timer;
-            private set
+            set
             {
                 timer = Mathf.Max(0, value);
                 timerEvent.Invoke(timer);
@@ -83,24 +75,10 @@ namespace BetweenTime._Scripts
 
 
         /// <summary>
-        ///     Initializes the GameController singleton instance, sets up state change listeners and MQTT communication
-        ///     and initializes states values
+        ///     Initializes state change listeners, MQTT communication and states values
         /// </summary>
         private void Awake()
         {
-            // Singleton pattern to ensure only one instance of GameController exists
-            if (Instance != null)
-            {
-                if (Instance == this) return;
-                Debug.LogWarning("GameController already exists, destroying this instance");
-                Destroy(gameObject); // An instance already exists, destroy this one
-                return;
-            }
-
-            // No instance exists, set this as the instance and ensure it persists between scenes
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-
             IState[] states = { mainState, timecodeState, candlesState, mazePositionsState, scannedItemsState };
 
             // Add a listener to the main state to handle state changes
@@ -112,25 +90,24 @@ namespace BetweenTime._Scripts
                 {
                     if (state.Equals(mainState)) continue; // Skip the main state
                     state.Reset(); // Reset all states to their initial values
-                    state.PublishValue(_client);
+                    state.PublishValue(Mqtt.Client());
                 }
 
                 _intervalTimer = 1; // Force publishing the timer value when reset
-                Timer = timerDuration; // Reset the timer
+                Timer = timerDuration + 0.999f; // Reset the timer
             });
 
             // Connect to the MQTT broker and set up the MQTT communication for all states
             try
             {
-                _client = new MqttClient(mqttHost);
-                _client.Connect("unity-" + Guid.NewGuid());
+                var client = Mqtt.Client(mqttHost); // Set up MQTT communication for all states
                 // Set up MQTT communication for all states
                 foreach (var state in states)
                 {
                     // Reset to and publish the initial value to the topic to ensure it's the latest retained value
                     state.Reset();
-                    state.PublishValue(_client);
-                    state.SetupMqtt(_client);
+                    state.PublishValue(client);
+                    state.SetupMqtt(client);
                 }
             }
             catch (Exception e)
@@ -138,12 +115,12 @@ namespace BetweenTime._Scripts
                 Debug.LogError($"Error setting up MQTT communication: {e}");
             }
 
-            Timer = timerDuration; // Set the timer to the initial duration
+            Timer = timerDuration + 0.999f; // Set the timer to the initial duration
             timerEvent.AddListener(value =>
             {
                 if (_intervalTimer < 1) return;
                 var message = Encoding.UTF8.GetBytes(value.ToString("0."));
-                _client.Publish(timerTopic, message, 0, false);
+                Mqtt.Client().Publish(timerTopic, message, 0, false);
                 _intervalTimer = 0;
             }); // Add listener to timer event to publish the timer value every second
         }
@@ -174,6 +151,20 @@ namespace BetweenTime._Scripts
                 mainState.Value = enumValue;
             else
                 Debug.LogWarning($"Could not parse '{value}' to MainState");
+        }
+
+        /// <summary>
+        ///     Helper method to set the timecode from debug console commands
+        /// </summary>
+        /// <param name="value">
+        ///     The new timecode value as a string; must be parsable to an hexadecimal number
+        /// </param>
+        public void SetTimecode(string value)
+        {
+            if (ushort.TryParse(value, NumberStyles.HexNumber, null, out var ushortValue))
+                timecodeState.Value = ushortValue;
+            else
+                Debug.LogWarning($"Could not parse '{value}' to ushort");
         }
 
         /// <summary>
@@ -208,11 +199,51 @@ namespace BetweenTime._Scripts
 #endif
         }
 
+        /// <summary>
+        ///     Restarts the game by reloading the current scene and resetting the main state; the loading is animated
+        /// </summary>
         public void RestartGame()
         {
             Debug.Log("Restarting game");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            StartCoroutine(Coroutine());
+        }
+
+        /// <summary>
+        ///     Coroutine to restart the game; waits for the warp animation to halfway finish before reloading the scene
+        /// </summary>
+        /// <returns>Coroutine enumerator</returns>
+        private IEnumerator Coroutine()
+        {
+            Warp.Instance.Trigger();
+            yield return new WaitUntil(() => Mathf.Approximately(Warp.Instance.Value, 1f));
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             mainState.Value = MainState.Idle;
+        }
+
+
+        /// <summary>
+        ///     Singleton wrapper for the MQTT client to ensure only one client is used
+        ///     and connection can persist between scenes
+        /// </summary>
+        private static class Mqtt
+        {
+            private static MqttClient _client; // The MQTT client instance
+
+            /// <summary>
+            ///     Returns the MQTT client instance, creating a new one if it doesn't exist yet
+            /// </summary>
+            /// <param name="mqttHost">
+            ///     The MQTT host address to connect to;
+            ///     if not provided, the existing client is returned
+            /// </param>
+            /// <returns>The MQTT client instance</returns>
+            public static MqttClient Client(string mqttHost = default)
+            {
+                if (mqttHost == default || _client != null) return _client;
+                _client = new MqttClient(mqttHost);
+                _client.Connect("unity-" + Guid.NewGuid());
+                return _client;
+            }
         }
     }
 }
