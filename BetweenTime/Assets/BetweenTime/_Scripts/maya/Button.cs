@@ -4,23 +4,26 @@ namespace BetweenTime._Scripts.maya
 {
     public class Button : MonoBehaviour
     {
-        public MayaController mayaController;
+        [SerializeField]
+        private Maya maya;
+
         public int buttonNumber;
         public bool isPressed;
 
-        // registers the button in mayaController
+        // registers the button in Maya
         private void Start()
         {
-            MayaController.buttons.Add(this);
+            maya.buttons.Add(this);
         }
 
+        // called when a button is pressed
         public void Triggered()
         {
             isPressed = true;
             print("button " + buttonNumber + " was pressed");
-            mayaController.input += buttonNumber;
+            maya.input += buttonNumber;
             Press();
-            mayaController.IncreaseCount();
+            maya.IncreaseCount();
         }
 
         // visibly presses the button    
@@ -30,7 +33,8 @@ namespace BetweenTime._Scripts.maya
             Collider(false);
         }
 
-        private void Collider(bool value)
+        // changes the collider being activated or not
+        public void Collider(bool value)
         {
             GetComponent<Collider>().enabled = value;
         }
@@ -45,11 +49,12 @@ namespace BetweenTime._Scripts.maya
             isPressed = false;
         }
 
+        // moves the button in y and z direction
+        // hardcoded y - z - proportion
         public void Move(float distance)
         {
             var currentPosition = transform.localPosition;
-            transform.localPosition = new Vector3(currentPosition.x, currentPosition.y + 0.35f * distance,
-                currentPosition.z + 1 * distance);
+            transform.localPosition = new Vector3(currentPosition.x, currentPosition.y + 0.35f * distance, currentPosition.z + 1 * distance);
         }
     }
 }

@@ -5,13 +5,17 @@ using UnityEngine;
 public class Stair : MonoBehaviour
 {
     [SerializeField]
-    private MayaController mayaController;
+    private Maya maya;
     
     private void Start()
     {
-        MayaController.stairs.Add(this);
+        // register the stair in Maya
+        maya.stairs.Add(this);
     }
 
+    // rotates the stair
+    // currently in x-direction
+    // TODO: adjust Rotation
     public void RotateStair(float xR)
     {
         Vector3 currentRotation = transform.localEulerAngles;
