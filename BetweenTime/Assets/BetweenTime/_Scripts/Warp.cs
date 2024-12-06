@@ -31,7 +31,7 @@ namespace BetweenTime._Scripts
         private bool _toFar; // Indicates if the player moved too far
         private Vignette _vignette; // The vignette effect to apply
 
-        
+
         /// <summary>
         ///     The value of the warp effect; gets the intensity of the vignette effect
         ///     and sets the vignette intensity and the alpha value of the camera blocker
@@ -52,7 +52,7 @@ namespace BetweenTime._Scripts
         /// </summary>
         public static Warp Instance => GameObject.FindWithTag("Player").GetComponent<Warp>();
 
-        
+
         /// <summary>
         ///     Initializes the warp effect; gets the vignette effect and the camera blocker's material
         /// </summary>

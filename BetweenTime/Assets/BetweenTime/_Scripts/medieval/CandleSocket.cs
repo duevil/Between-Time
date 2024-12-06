@@ -44,7 +44,7 @@ namespace BetweenTime._Scripts.medieval
             GetComponent<Collider>().isTrigger = false;
 
             // Check if all the correct candles are placed
-            if (!Candle.ColorOrder.All(color => Placed.Exists(c => c.Color == color))) return;
+            if (!Candle.k_ColorOrder.All(color => Placed.Exists(c => c.color == color))) return;
             Placed.ToList().ForEach(c => c.Freeze()); // Freeze all placed candles
             GameController.Instance.mainState.Value = MainState.CandlesPlaced;
         }

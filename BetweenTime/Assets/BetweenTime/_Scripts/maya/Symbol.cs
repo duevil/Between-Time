@@ -1,0 +1,30 @@
+﻿using UnityEngine;
+
+namespace BetweenTime._Scripts.maya
+{
+    public enum Symbol
+    {
+        _0 = 19,
+        _1 = 18,
+        _2 = 17,
+        _3 = 15,
+        _4 = 13,
+        _5 = 1,
+        _6 = 12,
+        _7 = 5,
+        _8 = 10,
+        _9 = 14
+    }
+
+    public static class SymbolExtension
+    {
+        private static Sprite[] _sprites;
+
+        public static Sprite GetSprite(this Symbol symbol)
+        {
+            _sprites ??= Resources.LoadAll<Sprite>("symbols1");
+            Debug.Log($"Getting sprite for {symbol}");
+            return _sprites[(int)symbol];
+        }
+    }
+}

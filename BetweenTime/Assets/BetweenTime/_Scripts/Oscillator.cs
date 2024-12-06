@@ -23,7 +23,7 @@ namespace BetweenTime._Scripts
         /// </summary>
         private void Start()
         {
-            _rb = GetComponent<Rigidbody>();
+            TryGetComponent(out _rb);
             _yOffset = Random.Range(0f, 2f * Mathf.PI);
         }
 
@@ -34,7 +34,7 @@ namespace BetweenTime._Scripts
         private void Update()
         {
             // Skip if the object is moving
-            if (_rb.linearVelocity.sqrMagnitude > 0) return;
+            if (_rb is not null && _rb.linearVelocity.sqrMagnitude > 0) return;
 
             // Oscillate the object up and down
             var position = transform.position;

@@ -8,7 +8,7 @@ namespace BetweenTime._Scripts
     [RequireComponent(typeof(Rigidbody))]
     public class DistanceReset : MonoBehaviour
     {
-        private const float MaxDistance = 1000f; // The maximum distance the object can move from its initial position
+        private const float MaxDistance = 900f; // The maximum distance the object can move from its initial position
 
         [Tooltip("The particle effect to play when the object is reset")] [SerializeField]
         public ParticleSystem effect;
@@ -24,6 +24,7 @@ namespace BetweenTime._Scripts
         {
             _initialPosition = transform.position;
             _initialRotation = transform.rotation;
+            Debug.Log($"[{name}] Initial position: {_initialPosition}, Initial rotation: {_initialRotation}");
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -41,7 +42,7 @@ namespace BetweenTime._Scripts
             switch (distanceSquared)
             {
                 // if object is close enough, do nothing
-                case <= MaxDistance * 0.01f: return;
+                case <= MaxDistance * 0.01f: break;
                 // if object is within the maximum distance, apply a force to move it further away
                 case <= MaxDistance:
                 {
@@ -49,16 +50,18 @@ namespace BetweenTime._Scripts
                     const float forceFactor = 0.01f;
                     var force = displacement.normalized * (forceFactor * distanceSquared);
                     _rb.AddForce(-force); // Force needs to be applied negatively ¯\_(ツ)_/¯
-                    return;
+                    break;
                 }
+                case > MaxDistance:
+                    Debug.Log("Object reset");
+                    // Past this point, the object has exceeded the maximum distance, so reset it
+                    if (effect) Instantiate(effect, transform.position, Quaternion.identity);
+                    _rb.linearVelocity = Vector3.zero;
+                    _rb.angularVelocity = Vector3.zero;
+                    transform.position = _initialPosition;
+                    transform.rotation = _initialRotation;
+                    break;
             }
-
-            // Past this point, the object has exceeded the maximum distance, so reset it
-            if (effect) Instantiate(effect, transform.position, Quaternion.identity);
-            _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            _rb.position = _initialPosition;
-            _rb.rotation = _initialRotation;
         }
 
         /// <summary>

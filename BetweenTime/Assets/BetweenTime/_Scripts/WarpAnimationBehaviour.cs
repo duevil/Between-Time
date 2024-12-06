@@ -4,14 +4,14 @@ using UnityEngine;
 namespace BetweenTime._Scripts
 {
     /// <summary>
-    ///    Behaviour that animates the warp effect
+    ///     Behaviour that animates the warp effect
     /// </summary>
     public class WarpAnimationBehaviour : StateMachineBehaviour
     {
         private Warp _warp; // The warp component
 
         /// <summary>
-        ///    Initializes the warp component
+        ///     Initializes the warp component
         /// </summary>
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -19,7 +19,7 @@ namespace BetweenTime._Scripts
         }
 
         /// <summary>
-        ///   Resets the warp value when the animation is done
+        ///     Resets the warp value when the animation is done
         /// </summary>
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -27,7 +27,7 @@ namespace BetweenTime._Scripts
         }
 
         /// <summary>
-        ///   Updates the warp value based on the current time;
+        ///     Updates the warp value based on the current time;
         ///     the warp value is a sine wave that goes from 0 to 1 and back to 0
         /// </summary>
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

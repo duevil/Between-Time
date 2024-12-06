@@ -1,6 +1,5 @@
 using BetweenTime._Scripts.@base;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace BetweenTime._Scripts.medieval
 {
@@ -18,27 +17,27 @@ namespace BetweenTime._Scripts.medieval
         private Animator _animator; // The animator component of the chest
 
         /// <summary>
+        ///     Initializes the animator component on enable
+        /// </summary>
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
+
+        /// <summary>
         ///     Subscribes to the main state change event to open the chest when the book binary is solved
         ///     and close it when the game is won
         /// </summary>
         private void Start()
         {
-            var timecoreGrab = GetComponentInChildren<XRGrabInteractable>();
-            timecoreGrab.enabled = false;
+            var timecore = GetComponentInChildren<Timecore>();
+            timecore.SetFreeze(true);
             GameController.Instance.mainState.onChange.AddListener(value =>
             {
                 if (value != MainState.BookBinarySolved && value != MainState.GameWon) return;
-                if (value == MainState.BookBinarySolved) timecoreGrab.enabled = true;
+                if (value == MainState.BookBinarySolved) timecore.SetFreeze(false);
                 _animator.SetTrigger(value == MainState.BookBinarySolved ? Open : Close);
             });
-        }
-
-        /// <summary>
-        ///     Initializes the animator component on enable
-        /// </summary>
-        private void OnEnable()
-        {
-            _animator = GetComponent<Animator>();
         }
     }
 }

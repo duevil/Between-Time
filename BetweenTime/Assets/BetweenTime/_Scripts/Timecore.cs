@@ -6,6 +6,9 @@ namespace BetweenTime._Scripts
     /// <summary>
     ///     Class that represents a timecore in the game
     /// </summary>
+    [RequireComponent(typeof(XRGrabInteractable))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Oscillator))]
     public class Timecore : MonoBehaviour
     {
         // The emission color property ID
@@ -14,11 +17,16 @@ namespace BetweenTime._Scripts
         [Tooltip("The color of the core")] [SerializeField]
         private Color color;
 
+        private Rigidbody _getComponent;
+        private Oscillator _oscillator;
+
+        private XRGrabInteractable _xrGrabInteractable;
+
         /// <summary>
         ///     Initializes the core's color on enable; sets each materials color and emission color
         ///     and the light color to the color of the core
         /// </summary>
-        private void OnEnable()
+        private void Awake()
         {
             if (color == default) return; // Keep color unchanged if default is selected
 
@@ -28,17 +36,24 @@ namespace BetweenTime._Scripts
                 material.SetColor(EmissionColor, color);
             }
 
-            GetComponentInChildren<Light>().color = color;
+            var children = GetComponentInChildren<Light>();
+            if (children != null) children.color = color;
+
+            _xrGrabInteractable = GetComponent<XRGrabInteractable>();
+            _getComponent = GetComponent<Rigidbody>();
+            _oscillator = GetComponent<Oscillator>();
         }
-        
+
         /// <summary>
-        ///     Freezes the timecore in place and disables its interaction
+        ///     Sets the freeze state of the timecore;
+        ///     if frozen, the timecore is locked in place and interaction is disabled
         /// </summary>
-        public void Freeze()
+        /// <param name="frozen">Whether the timecore should be frozen</param>
+        public void SetFreeze(bool frozen)
         {
-            GetComponent<XRGrabInteractable>().enabled = false;
-            GetComponent<Rigidbody>().isKinematic = true;
-            GetComponent<Oscillator>().enabled = false;
+            _xrGrabInteractable.enabled = !frozen;
+            _getComponent.isKinematic = frozen;
+            _oscillator.enabled = !frozen;
         }
     }
 }

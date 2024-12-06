@@ -20,7 +20,7 @@ namespace BetweenTime._Scripts
 
         private bool _isPlaced; // Whether the timecore has been placed
 
-        
+
         /// <summary>
         ///     Registers the timecore to the list of all timecores on enable
         /// </summary>
@@ -38,7 +38,7 @@ namespace BetweenTime._Scripts
             PlacedCores.Remove(timecore);
         }
 
-        
+
         /// <summary>
         ///     XR Interaction Toolkit event handler for when an object is selected;
         ///     adds the timecore to the placed list
@@ -52,7 +52,7 @@ namespace BetweenTime._Scripts
 
             if (!PlacedCores.SetEquals(AllCores)) return;
             GameController.Instance.mainState.Value = MainState.GameWon;
-            foreach (var placedCore in PlacedCores.ToList()) placedCore.Freeze();
+            foreach (var placedCore in PlacedCores.ToList()) placedCore.SetFreeze(true);
         }
 
         /// <summary>

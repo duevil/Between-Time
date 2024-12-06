@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 namespace BetweenTime._Scripts
 {
@@ -9,8 +10,11 @@ namespace BetweenTime._Scripts
     /// </summary>
     public class DebugController : MonoBehaviour
     {
-        [Tooltip("The commands that can be entered in the console")]
-        public Command[] commands;
+        [Tooltip("The commands that can be entered in the console")] [SerializeField]
+        private Command[] commands;
+
+        [Tooltip("The input action manager to be blocked when the debug console is active")] [SerializeField]
+        private InputActionManager xrInputActionManager;
 
         private int _command; // The index of the current command
         private string _consoleInput = ""; // The current input in the console
@@ -46,6 +50,7 @@ namespace BetweenTime._Scripts
         private void OnToggleConsole()
         {
             _showConsole = !_showConsole;
+            xrInputActionManager.enabled = !_showConsole;
         }
 
         /// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using BetweenTime._Scripts.maya;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using Random = UnityEngine.Random;
@@ -16,7 +17,7 @@ namespace BetweenTime._Scripts.medieval
         /// <summary>
         ///     The awaited colors for the candles in the awaited order
         /// </summary>
-        public static readonly ReadOnlyCollection<Color> ColorOrder = new(new List<Color>
+        public static readonly ReadOnlyCollection<Color> k_ColorOrder = new(new List<Color>
         {
             Color.magenta,
             Color.blue,
@@ -36,12 +37,26 @@ namespace BetweenTime._Scripts.medieval
             Color.magenta,
             Color.yellow,
             /*Purple*/ new(0.5f, 0, 1),
-            /*Orange*/ new(1, 0.5f, 0),
+            // /*Orange*/ new(1, 0.5f, 0),
             /*Turquoise*/ new(0, 1, 0.5f),
             /*Pink*/ new(1, 0, 0.5f),
-            /*Lime*/ new(0.5f, 1, 0),
+            // /*Lime*/ new(0.5f, 1, 0),
             /*Azure*/ new(0, 0.5f, 1)
         });
+
+        private static readonly Dictionary<Color, Symbol> Symbols = new()
+        {
+            { Colors[0], Symbol._7 },
+            { Colors[1], Symbol._8 },
+            { Colors[2], Symbol._9 },
+            { Colors[3], Symbol._3 },
+            { Colors[4], Symbol._4 },
+            { Colors[5], Symbol._5 },
+            { Colors[6], Symbol._6 },
+            { Colors[7], Symbol._0 },
+            { Colors[8], Symbol._1 },
+            { Colors[9], Symbol._2 }
+        }; // TODO: Map the colors to the proper symbols
 
         // The colors that have been assigned to a candle
         private static readonly List<Color> AssignedColors = new();
@@ -53,7 +68,18 @@ namespace BetweenTime._Scripts.medieval
         /// <summary>
         ///     The color of the candle; randomly assigned on enable
         /// </summary>
-        public Color Color { get; private set; }
+        public Color color { get; private set; }
+
+        /// <summary>
+        ///     Initializes the candle's state to be unlit on start and subscribes to the candles state changes to light the candle
+        /// </summary>
+        private void Awake()
+        {
+            color = GetColor();
+            GetComponentInChildren<MeshRenderer>().material.color = color;
+            _colorIndex = k_ColorOrder.IndexOf(color);
+            GetComponentInChildren<SpriteRenderer>().sprite = Symbols[color].GetSprite();
+        }
 
 
         /// <summary>
@@ -67,21 +93,11 @@ namespace BetweenTime._Scripts.medieval
         }
 
         /// <summary>
-        ///     Initializes the candle's state to be unlit on start and subscribes to the candles state changes to light the candle
-        /// </summary>
-        private void OnEnable()
-        {
-            Color = GetColor();
-            GetComponentInChildren<MeshRenderer>().material.color = Color;
-            _colorIndex = ColorOrder.IndexOf(Color);
-        }
-
-        /// <summary>
         ///     Removes the color from the taken colors list when the candle is destroyed
         /// </summary>
         private void OnDestroy()
         {
-            AssignedColors.Remove(Color);
+            AssignedColors.Remove(color);
         }
 
         /// <summary>

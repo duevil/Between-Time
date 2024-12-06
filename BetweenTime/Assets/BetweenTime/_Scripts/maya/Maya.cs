@@ -1,6 +1,11 @@
-using BetweenTime._Scripts.@base;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using BetweenTime._Scripts.@base;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // manages the atztec puzzle
 namespace BetweenTime._Scripts.maya
@@ -8,160 +13,190 @@ namespace BetweenTime._Scripts.maya
     public class Maya : MonoBehaviour
     {
         private const ushort Timecode = 0xdc3e;
+        private const float LerpDuration = 2f;
+        private const float LerpPositionOffset = 1f;
 
-        [SerializeField]
-        private GameObject timeCube;
 
-        private bool _isSolved;
-        private bool _isSynced;
-        private bool _symbolsActivated;
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        private void Start()
+        private static readonly ReadOnlyCollection<Symbol> Solution = new(new List<Symbol>
         {
-            // hides buttons at the beginning
-            MoveButtons(-0.15f);
-            ButtonColliders(false);
+            Symbol._4, Symbol._8, Symbol._5, Symbol._3, Symbol._6, Symbol._1
+        }); // 485361
+
+        private static readonly ReadOnlyCollection<Symbol> HintSolution = new(new List<Symbol>
+        {
+            Symbol._7, Symbol._8, Symbol._0, Symbol._6
+        }); // 4853
+
+
+        [FormerlySerializedAs("timeCube")] [SerializeField]
+        private GameObject timecore;
+
+        [SerializeField] private GameObject templeTop;
+        private readonly List<Symbol> _input = new(Solution.Count);
+
+        private Button[] _buttons;
+        private bool _isActivated;
+        private bool _isSolved;
+        private int _stepCount;
+        private Step[] _steps;
+        private TimecoreAnimation _timecoreAnimation;
+        private TopAnimation _topAnimation;
+
+
+        private void Awake()
+        {
+            _buttons = GetComponentsInChildren<Button>();
+            _steps = GetComponentsInChildren<Step>();
+
+            foreach (var button in _buttons) button.OnButtonPressed = HandleButtonPressed;
         }
 
-        // handles the change of the timecode and activates or deactivates the puzzle
+        private void Start()
+        {
+            // for some reason the animation script is added twice, therefore this check
+            _timecoreAnimation = timecore.GetComponent<TimecoreAnimation>();
+            if (_timecoreAnimation) Destroy(_timecoreAnimation);
+            _timecoreAnimation = timecore.AddComponent<TimecoreAnimation>();
+            _topAnimation = templeTop.GetComponent<TopAnimation>();
+            if (_topAnimation) Destroy(_topAnimation);
+            _topAnimation = templeTop.AddComponent<TopAnimation>();
+            // animate the core only after the top has finished animating
+            _topAnimation.LerpEndAction += () => _timecoreAnimation.Animate();
+
+            foreach (var step in _steps) step.LerpEndAction += () => _stepCount--;
+        }
+
         public void HandleTimeCode(ushort value)
         {
             if (_isSolved) return;
-
-            if (Timecode != value)
-            {
-                if (!_isSynced) return;
-
-                DisableNumPad();
-                _isSynced = false;
-                return;
-            }
-
-            EnableNumPad();
-            _isSynced = true;
+            ResetNumPad();
         }
 
-        // handles the change of the MainState
         public void HandleMainState(MainState value)
         {
-            if (value != MainState.InputFieldOpened || _symbolsActivated) return;
-
-            ActivateSymbols();
-            _symbolsActivated = true;
-        }
-
-        // activates the puzzle
-        public void EnableNumPad()
-        {
-            // movement to the right position
-            RotateStairs(0);
-            MoveButtons(0.3f);
-            ButtonColliders(true);
-        }
-
-        // deactivates and resets the puzzle
-        public void DisableNumPad()
-        {
-            ResetNumPad();
-            MoveButtons(-0.3f);
-            ButtonColliders(false);
-            RotateStairs(45);
-        }
-
-        // finishes the maya puzzle
-        public void Finish()
-        {
-            DisableNumPad();
-            timeCube.GetComponent<Collider>().enabled = true;
-            timeCube.GetComponent<Rigidbody>().isKinematic = false;
-            Hint();
-            _isSolved = true;
-            GameController.Instance.mainState.Value = MainState.InputFieldSolved;
-        }
-
-
-        private const string Solution = "485361";
-        public string input = "";
-        public int count;
-
-        public List<Button> buttons = new();
-        public List<Stair> stairs = new();
-
-        // moves every registered Button
-        public void MoveButtons(float distance)
-        {
-            foreach (var button in buttons)
+            switch (value)
             {
-                button.Move(distance);
+                case MainState.InputFieldSolved when !_isSolved:
+                    Finish();
+                    break;
+                case MainState.InputFieldOpened when !_isActivated:
+                    _isActivated = true;
+                    // movement to the right position
+                    foreach (var step in _steps)
+                    {
+                        step.MoveOut();
+                        _stepCount++;
+                    }
+
+                    // wait for all steps to finish and animate buttons afterward
+                    StartCoroutine(Routine());
+                    break;
+
+                    IEnumerator Routine()
+                    {
+                        yield return new WaitUntil(() => _stepCount == 0);
+                        foreach (var button in _buttons) button.state = Button.State.Released;
+                    }
             }
         }
 
-        // called whenever a Button is triggered
-        // increases count to 6 and compares the input to the solution
-        // handles wrong or right input
-        public void IncreaseCount()
+        private void HandleButtonPressed(Button button)
         {
-            count++;
+            var gameController = GameController.Instance;
+            if (gameController.timecodeState.Value == Timecode)
+            {
+                button.state = Button.State.Pressed;
+                _input.Add(button.symbol);
 
-            if (count != 6) return;
-            if (Solution == input)
-                Finish();
+                if (_input.Count != Solution.Count) return;
+                if (Solution.SequenceEqual(_input)) gameController.mainState.Value = MainState.InputFieldSolved;
+                else ResetNumPad();
+            }
             else
-                ResetNumPad();
-        }
-
-        // resets the NumPad
-        // only called when input is not matching solution
-        public void ResetNumPad()
-        {
-            input = "";
-            count = 0;
-
-            foreach (var button in buttons)
             {
-                button.Unpress();
+                button.state = button.state switch
+                {
+                    Button.State.Pressed => Button.State.Released,
+                    Button.State.Released => Button.State.Pressed,
+                    _ => button.state
+                };
             }
         }
 
-        // enables/disables all Button Collider
-        public void ButtonColliders(bool value)
+        private void Finish()
         {
-            foreach (var button in buttons)
+            _isSolved = true;
+            _topAnimation.Animate();
+            ShowHint();
+        }
+
+
+        /// resets the NumPad;
+        /// only called when input is not matching solution
+        private void ResetNumPad()
+        {
+            _input.Clear();
+
+            foreach (var button in _buttons)
             {
-                button.Collider(value);
+                button.state = _isActivated ? Button.State.Released : Button.State.Disabled;
+                button.DisableOutline();
             }
         }
 
-        // activates the symbols
-        // called from mayaCommunicator when MainState == MainState.InputFieldOpened
-        public void ActivateSymbols()
+        private void ShowHint()
         {
-            foreach (var button in buttons)
+            foreach (var button in _buttons)
             {
-                // TODO
+                button.state = HintSolution.Contains(button.symbol)
+                    ? Button.State.Pressed
+                    : Button.State.Released;
+                button.DisableInteractable();
+                if (button.state != Button.State.Pressed) button.DisableOutline();
             }
         }
 
-        // give hint for next puzzle
-        public void Hint()
+
+        [RequireComponent(typeof(Timecore))]
+        private class TimecoreAnimation : AxisMoveSmoothLerpAnimation
         {
-            foreach (var button in buttons)
+            private bool _active;
+
+            protected override void Start()
             {
-                var number = button.buttonNumber;
+                base.Start();
+                var timecore = GetComponent<Timecore>();
+                timecore.SetFreeze(true);
+                Lerp(0, -LerpPositionOffset);
+            }
 
-                if (number is < 5 or > 8) continue;
+            public void Animate()
+            {
+                _active = true;
+                gameObject.SetActive(true);
+                Lerp(LerpDuration, 0);
+            }
 
-                button.Move(0.3f);
+            protected override void OnLerpEnd()
+            {
+                if (_active) GetComponent<Timecore>().SetFreeze(false);
+                else gameObject.SetActive(false);
             }
         }
 
-        // rotates every registered stair
-        public void RotateStairs(float xR)
+        private class TopAnimation : AxisMoveSmoothLerpAnimation
         {
-            foreach (var stair in stairs)
+            public Action LerpEndAction;
+
+            public void Animate()
             {
-                stair.RotateStair(xR);
+                Lerp(LerpDuration, LerpPositionOffset, transform.right);
+            }
+
+            protected override void OnLerpEnd()
+            {
+                gameObject.SetActive(false);
+                LerpEndAction?.Invoke();
             }
         }
     }
