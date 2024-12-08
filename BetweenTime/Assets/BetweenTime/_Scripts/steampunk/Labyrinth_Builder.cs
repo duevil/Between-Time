@@ -30,6 +30,8 @@ public class Labyrinth_Builder : MonoBehaviour
     };
     private int labySize = 8;
 
+    private float cellToCell_distance = 0.3738f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -105,9 +107,9 @@ public class Labyrinth_Builder : MonoBehaviour
                         Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation, gameObject.transform);
                         break;
                 }
-                pos = new Vector3(pos.x, pos.y, pos.z + 0.3738f);
+                pos = new Vector3(pos.x, pos.y, pos.z + cellToCell_distance);
             }
-            pos = new Vector3(pos.x, pos.y - 0.3738f, startZ);
+            pos = new Vector3(pos.x, pos.y - cellToCell_distance, startZ);
         }
     }
 
@@ -200,5 +202,10 @@ public class Labyrinth_Builder : MonoBehaviour
         GameObject pipe = pipe_straight_end;
         pipe.transform.rotation = Quaternion.Euler(-90, 180, 0);
         return pipe;
+    }
+
+    public float getCellToCellDistance()
+    {
+        return cellToCell_distance;
     }
 }
