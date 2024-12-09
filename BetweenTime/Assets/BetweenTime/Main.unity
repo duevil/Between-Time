@@ -1727,7 +1727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d6ccee9ecf9024a9a215edde0345fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timecore: {fileID: 7747640147256985930}
+  _timecore: {fileID: 7747640147256985929}
 --- !u!4 &734954193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1974302036521946124, guid: 0cd84b20c82b7fb40ab3dabb3b815cec, type: 3}
@@ -11809,7 +11809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1daa3199c3033841a2ab95cf7c2a769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _socket: {fileID: 0}
+  _socket: {fileID: 1779668589}
 --- !u!4 &1779668583 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8553490656329437223, guid: c3a89e156beb9c645bb9c90af7f6701c, type: 3}
@@ -16920,7 +16920,6 @@ GameObject:
   - component: {fileID: 1064385906447924144}
   - component: {fileID: 5719153329887156432}
   - component: {fileID: 2779175691418743295}
-  - component: {fileID: 7747640147256985930}
   m_Layer: 0
   m_Name: Timecore
   m_TagString: Untagged
@@ -16928,19 +16927,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7747640147256985930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7747640147256985929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4fd38c715d1edd48981c8e40f15e707, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maze: {fileID: 0}
 --- !u!1 &7747640147876157656 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7747640146983354105, guid: c96958d56c8843144aa133b330339cfa, type: 3}

@@ -7,7 +7,7 @@ public class Maze : MonoBehaviour
     [SerializeField]
     private GameObject _timecore;
 
-    private GameObject light;
+    private new GameObject light;
 
     void Start()
     {
