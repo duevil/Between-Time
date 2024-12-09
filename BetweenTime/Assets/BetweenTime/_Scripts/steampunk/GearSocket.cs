@@ -7,10 +7,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class GearSocket : MonoBehaviour
 {
     [SerializeField]
-    private MachineDoor door;
+    private MachineDoor _door;
 
     [SerializeField]
-    private GameObject gear;
+    private GameObject _gear;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,10 +22,10 @@ public class GearSocket : MonoBehaviour
 
     private void OnSelectEntered(SelectEnterEventArgs args)
     {
-        door.moveDoor(false);
+        _door.moveDoor(false);
         GetComponent<XRSocketInteractor>().enabled = false;
         GameController.Instance.mainState.Value = MainState.MazeActive;
-        gear.GetComponent<Collider>().enabled = false;
-        gear.GetComponent <Outline>().OutlineWidth = 0;
+        _gear.GetComponent<Collider>().enabled = false;
+        _gear.GetComponent <Outline>().OutlineWidth = 0;
     }
 }

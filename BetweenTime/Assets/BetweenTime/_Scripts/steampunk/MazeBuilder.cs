@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Labyrinth_Builder : MonoBehaviour
+public class MazeBuilder : MonoBehaviour
 {
 
     [SerializeField]
@@ -18,7 +18,7 @@ public class Labyrinth_Builder : MonoBehaviour
     [SerializeField]
     private GameObject pipe_t_junction;
 
-    private char[,] labyrinth = {
+    private char[,] _labyrinth = {
         {'3', 'b', '9', '1', '5', '5', '5', '3'},
         {'a', 'c', '2', 'c', '5', '3', '9', '6'},
         {'c', '3', 'c', '3', '9', '6', 'a', 'b'},
@@ -28,9 +28,9 @@ public class Labyrinth_Builder : MonoBehaviour
         {'c', '3', 'd', '4', '5', '5', '3', 'a'},
         {'d', '4', '5', '5', '5', '5', '6', 'c'}
     };
-    private int labySize = 8;
+    private int _labySize = 8;
 
-    private float cellToCell_distance = 0.3738f;
+    private float _cellToCelldistance = 0.3738f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,11 +43,11 @@ public class Labyrinth_Builder : MonoBehaviour
         var pos = gameObject.transform.position;
         float startZ = pos.z;
 
-        for(int i = 0; i<labySize; i++)
+        for(int i = 0; i<_labySize; i++)
         {
-            for (int j = 0; j<labySize; j++)
+            for (int j = 0; j<_labySize; j++)
             {
-                var pipeType = labyrinth[i,j];
+                var pipeType = _labyrinth[i,j];
                 GameObject pipe;
 
                 switch (pipeType)
@@ -107,9 +107,9 @@ public class Labyrinth_Builder : MonoBehaviour
                         Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation, gameObject.transform);
                         break;
                 }
-                pos = new Vector3(pos.x, pos.y, pos.z + cellToCell_distance);
+                pos = new Vector3(pos.x, pos.y, pos.z + _cellToCelldistance);
             }
-            pos = new Vector3(pos.x, pos.y - cellToCell_distance, startZ);
+            pos = new Vector3(pos.x, pos.y - _cellToCelldistance, startZ);
         }
     }
 
@@ -206,6 +206,6 @@ public class Labyrinth_Builder : MonoBehaviour
 
     public float getCellToCellDistance()
     {
-        return cellToCell_distance;
+        return _cellToCelldistance;
     }
 }

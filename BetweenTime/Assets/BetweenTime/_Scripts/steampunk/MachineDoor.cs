@@ -6,10 +6,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class MachineDoor : MonoBehaviour
 {
 
-    private const ushort Timecode = 0x14ea;
+    private const ushort _Timecode = 0x14ea;
 
     [SerializeField]
-    private XRSocketInteractor socket;
+    private XRSocketInteractor _socket;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,10 +18,10 @@ public class MachineDoor : MonoBehaviour
 
     public void HandleTimeCode(ushort value)
     {
-        if (value != Timecode || GameController.Instance.mainState.Value != MainState.BookBinarySolved) return;
+        if (value != _Timecode || GameController.Instance.mainState.Value != MainState.BookBinarySolved) return;
 
         moveDoor(true);
-        socket.enabled = true;
+        _socket.enabled = true;
     }
 
     public void moveDoor(bool value)
