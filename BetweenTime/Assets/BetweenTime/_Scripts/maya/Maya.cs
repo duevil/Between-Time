@@ -26,9 +26,9 @@ namespace BetweenTime._Scripts.maya
         private static readonly ReadOnlyCollection<Symbol> HintSolution = new(new List<Symbol>
         {
             Symbol._7, Symbol._8, Symbol._0, Symbol._6
-        }); // 4853
-        
-        
+        }); // 7806
+
+
         [Tooltip("The audio clips to play when receiving input")] [SerializeField]
         private List<AudioClip> audioClips;
 
@@ -113,7 +113,7 @@ namespace BetweenTime._Scripts.maya
         private void HandleButtonPressed(Button button)
         {
             PlayMoveSound(button.transform);
-            
+
             var gameController = GameController.Instance;
             if (gameController.timecodeState.Value == Timecode)
             {
