@@ -102,7 +102,8 @@ namespace BetweenTime._Scripts.maya
 
         private static Symbol GetSymbol()
         {
-            var availableSymbols = Enum.GetValues(typeof(Symbol)).Cast<Symbol>().Except(AssignedSymbols).ToList();
+            var availableSymbols = Enum.GetValues(typeof(Symbol)).Cast<Symbol>().Where(SymbolExtension.Assignable)
+                .Except(AssignedSymbols).ToList();
             if (availableSymbols.Count == 0) throw new InvalidOperationException("No more symbols available");
             var symbol = availableSymbols[Random.Range(0, availableSymbols.Count)];
             AssignedSymbols.Add(symbol);

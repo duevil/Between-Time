@@ -37,26 +37,29 @@ namespace BetweenTime._Scripts.medieval
             Color.magenta,
             Color.yellow,
             /*Purple*/ new(0.5f, 0, 1),
-            // /*Orange*/ new(1, 0.5f, 0),
+            /*Orange*/ new(1, 0.5f, 0),
             /*Turquoise*/ new(0, 1, 0.5f),
             /*Pink*/ new(1, 0, 0.5f),
-            // /*Lime*/ new(0.5f, 1, 0),
+            /*Lime*/ new(0.5f, 1, 0),
             /*Azure*/ new(0, 0.5f, 1)
         });
 
+        // Mapping of the candle colors to their corresponding maya symbol
         private static readonly Dictionary<Color, Symbol> Symbols = new()
         {
-            { Colors[0], Symbol._7 },
-            { Colors[1], Symbol._8 },
-            { Colors[2], Symbol._9 },
-            { Colors[3], Symbol._3 },
-            { Colors[4], Symbol._4 },
-            { Colors[5], Symbol._5 },
-            { Colors[6], Symbol._6 },
-            { Colors[7], Symbol._0 },
-            { Colors[8], Symbol._1 },
-            { Colors[9], Symbol._2 }
-        }; // TODO: Map the colors to the proper symbols
+            { k_ColorOrder[0], Symbol._7 },
+            { k_ColorOrder[1], Symbol._8 },
+            { k_ColorOrder[2], Symbol._0 },
+            { k_ColorOrder[3], Symbol._6 },
+            { Colors[2], Symbol._1 },
+            { Colors[5], Symbol._2 },
+            { Colors[6], Symbol._3 },
+            { Colors[7], Symbol._4 },
+            { Colors[8], Symbol._5 },
+            { Colors[9], Symbol._9 },
+            { Colors[10], Symbol._10 },
+            { Colors[11], Symbol._11 }
+        }; 
 
         // The colors that have been assigned to a candle
         private static readonly List<Color> AssignedColors = new();
