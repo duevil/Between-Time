@@ -72,6 +72,8 @@ namespace BetweenTime._Scripts
         private void FixedUpdate()
         {
             if (_toFar || Mathf.Abs(transform.position.y - _startPosition.y) < maxDistance) return;
+            TryGetComponent(out AudioSource audioSource);
+            audioSource?.Play();
             Trigger();
             _toFar = true;
         }

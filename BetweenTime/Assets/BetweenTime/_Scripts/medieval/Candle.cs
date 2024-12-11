@@ -61,14 +61,32 @@ namespace BetweenTime._Scripts.medieval
         // The colors that have been assigned to a candle
         private static readonly List<Color> AssignedColors = new();
 
+        [Tooltip("The audio clip to play when the candle is ignited")] [SerializeField]
+        private AudioClip igniteSound;
+
+        [Tooltip("The audio clip to play when the candle is extinguished")] [SerializeField]
+        private AudioClip extinguishSound;
+
 
         // The index of the candle's color in the candles state
         private int _colorIndex;
+
+        private bool _isLit;
 
         /// <summary>
         ///     The color of the candle; randomly assigned on enable
         /// </summary>
         public Color color { get; private set; }
+
+        private bool isLit
+        {
+            get => _isLit;
+            set
+            {
+                SetLitState(value);
+                _isLit = value;
+            }
+        }
 
         /// <summary>
         ///     Initializes the candle's state to be unlit on start and subscribes to the candles state changes to light the candle
@@ -87,9 +105,9 @@ namespace BetweenTime._Scripts.medieval
         /// </summary>
         private void Start()
         {
-            SetLitState(false);
+            isLit = false;
             if (_colorIndex == -1) return;
-            GameController.Instance.candlesState.onChange.AddListener(value => SetLitState(value[_colorIndex]));
+            GameController.Instance.candlesState.onChange.AddListener(value => isLit = value[_colorIndex]);
         }
 
         /// <summary>
@@ -109,6 +127,10 @@ namespace BetweenTime._Scripts.medieval
             foreach (var ps in GetComponentsInChildren<ParticleSystem>())
                 if (value) ps.Play();
                 else ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            if (value == isLit) return;
+            AudioSource.PlayClipAtPoint(value ? igniteSound : extinguishSound, transform.position);
+            if (value) GetComponent<AudioSource>().Play();
+            else GetComponent<AudioSource>().Stop();
         }
 
         /// <summary>

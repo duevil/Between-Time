@@ -6,6 +6,7 @@ using System.Linq;
 using BetweenTime._Scripts.@base;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 // manages the atztec puzzle
 namespace BetweenTime._Scripts.maya
@@ -26,7 +27,10 @@ namespace BetweenTime._Scripts.maya
         {
             Symbol._7, Symbol._8, Symbol._0, Symbol._6
         }); // 4853
-
+        
+        
+        [Tooltip("The audio clips to play when receiving input")] [SerializeField]
+        private List<AudioClip> audioClips;
 
         [FormerlySerializedAs("timeCube")] [SerializeField]
         private GameObject timecore;
@@ -62,6 +66,7 @@ namespace BetweenTime._Scripts.maya
             _topAnimation = templeTop.AddComponent<TopAnimation>();
             // animate the core only after the top has finished animating
             _topAnimation.LerpEndAction += () => _timecoreAnimation.Animate();
+            _topAnimation.LerpEndAction += () => PlayMoveSound(_topAnimation.transform);
 
             foreach (var step in _steps) step.LerpEndAction += () => _stepCount--;
         }
@@ -85,6 +90,7 @@ namespace BetweenTime._Scripts.maya
                     foreach (var step in _steps)
                     {
                         step.MoveOut();
+                        PlayMoveSound(step.transform);
                         _stepCount++;
                     }
 
@@ -95,13 +101,19 @@ namespace BetweenTime._Scripts.maya
                     IEnumerator Routine()
                     {
                         yield return new WaitUntil(() => _stepCount == 0);
-                        foreach (var button in _buttons) button.state = Button.State.Released;
+                        foreach (var button in _buttons)
+                        {
+                            button.state = Button.State.Released;
+                            PlayMoveSound(button.transform);
+                        }
                     }
             }
         }
 
         private void HandleButtonPressed(Button button)
         {
+            PlayMoveSound(button.transform);
+            
             var gameController = GameController.Instance;
             if (gameController.timecodeState.Value == Timecode)
             {
@@ -139,7 +151,9 @@ namespace BetweenTime._Scripts.maya
 
             foreach (var button in _buttons)
             {
-                button.state = _isActivated ? Button.State.Released : Button.State.Disabled;
+                var resetState = _isActivated ? Button.State.Released : Button.State.Disabled;
+                if (resetState != button.state) PlayMoveSound(button.transform);
+                button.state = resetState;
                 button.DisableOutline();
             }
         }
@@ -152,8 +166,16 @@ namespace BetweenTime._Scripts.maya
                     ? Button.State.Pressed
                     : Button.State.Released;
                 button.DisableInteractable();
-                if (button.state != Button.State.Pressed) button.DisableOutline();
+                if (button.state == Button.State.Pressed) continue;
+                PlayMoveSound(button.transform);
+                button.DisableOutline();
             }
+        }
+
+        private void PlayMoveSound(Transform dest)
+        {
+            // Play a random audio clip
+            AudioSource.PlayClipAtPoint(audioClips[Random.Range(0, audioClips.Count)], dest.position, 0.5f);
         }
 
 

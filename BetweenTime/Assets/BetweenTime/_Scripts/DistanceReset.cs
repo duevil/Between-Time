@@ -11,7 +11,7 @@ namespace BetweenTime._Scripts
         private const float MaxDistance = 900f; // The maximum distance the object can move from its initial position
 
         [Tooltip("The particle effect to play when the object is reset")] [SerializeField]
-        public ParticleSystem effect;
+        private ParticleSystem effect;
 
         private Vector3 _initialPosition; // The object's initial position
         private Quaternion _initialRotation; // The object's initial rotation
@@ -24,7 +24,6 @@ namespace BetweenTime._Scripts
         {
             _initialPosition = transform.position;
             _initialRotation = transform.rotation;
-            Debug.Log($"[{name}] Initial position: {_initialPosition}, Initial rotation: {_initialRotation}");
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -53,7 +52,6 @@ namespace BetweenTime._Scripts
                     break;
                 }
                 case > MaxDistance:
-                    Debug.Log("Object reset");
                     // Past this point, the object has exceeded the maximum distance, so reset it
                     if (effect) Instantiate(effect, transform.position, Quaternion.identity);
                     _rb.linearVelocity = Vector3.zero;

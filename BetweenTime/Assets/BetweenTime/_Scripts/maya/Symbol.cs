@@ -23,7 +23,6 @@ namespace BetweenTime._Scripts.maya
         public static Sprite GetSprite(this Symbol symbol)
         {
             _sprites ??= Resources.LoadAll<Sprite>("symbols1");
-            Debug.Log($"Getting sprite for {symbol}");
             return _sprites[(int)symbol];
         }
     }

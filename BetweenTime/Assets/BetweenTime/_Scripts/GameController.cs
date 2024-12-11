@@ -129,14 +129,13 @@ namespace BetweenTime._Scripts
         ///     Updates the timer, publishes the current time value to the MQTT broker every second
         ///     and checks if the game is lost
         /// </summary>
-        private void Update()
+        private void FixedUpdate()
         {
             if (!Running) return;
             Timer -= Time.deltaTime; // Count down the timer
             if (_intervalTimer < 1) _intervalTimer += Time.deltaTime;
             if (Timer > 0) return;
             // Timer has run out while the game was not won, so the game is lost
-            Debug.Log("Game over");
             mainState.Value = MainState.GameLost;
         }
 

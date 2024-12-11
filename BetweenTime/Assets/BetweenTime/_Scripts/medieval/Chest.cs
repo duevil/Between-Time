@@ -35,7 +35,11 @@ namespace BetweenTime._Scripts.medieval
             GameController.Instance.mainState.onChange.AddListener(value =>
             {
                 if (value != MainState.BookBinarySolved && value != MainState.GameWon) return;
-                if (value == MainState.BookBinarySolved) timecore.SetFreeze(false);
+                if (value == MainState.BookBinarySolved)
+                {
+                    GetComponent<AudioSource>().Play();
+                    timecore.SetFreeze(false);
+                }
                 _animator.SetTrigger(value == MainState.BookBinarySolved ? Open : Close);
             });
         }
