@@ -3,7 +3,12 @@ guid: 1622c0f4c77419c44a4806127480df97
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brass.001
+    second: {fileID: 2100000, guid: 27f597c046d1694418f0102b33405723, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

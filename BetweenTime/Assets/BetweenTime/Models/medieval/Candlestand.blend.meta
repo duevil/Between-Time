@@ -3,7 +3,12 @@ guid: 158fac7134631c5409c3811ad7332315
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Candlestand
+    second: {fileID: 2100000, guid: a2217641e5369e94c883b773d1b3229b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -68,7 +73,7 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 0
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
