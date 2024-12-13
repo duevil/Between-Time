@@ -36,7 +36,7 @@ namespace BetweenTime._Scripts
         ///     The value of the warp effect; gets the intensity of the vignette effect
         ///     and sets the vignette intensity and the alpha value of the camera blocker
         /// </summary>
-        public float Value
+        public float value
         {
             get => _vignette.intensity.value;
             set
@@ -50,7 +50,7 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     The current instance of the Warp; finds the player object and gets the warp component
         /// </summary>
-        public static Warp Instance => GameObject.FindWithTag("Player").GetComponent<Warp>();
+        public static Warp instance => GameObject.FindWithTag("Player").GetComponent<Warp>();
 
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace BetweenTime._Scripts
             _material = cameraBlocker.GetComponent<Renderer>().material;
             _startPosition = transform.position;
             _animator = GetComponent<Animator>();
-            Value = 1f;
+            value = 1f;
             _animator.Play("Warp", -1, 0.5f);
         }
 
@@ -89,16 +89,16 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     Marks the warp as halfway done
         /// </summary>
-        /// <param name="value">Whether the warp is halfway done</param>
-        public void MarkHalfway(bool value)
+        /// <param name="isHalfway">Whether the warp is halfway done</param>
+        public void MarkHalfway(bool isHalfway)
         {
-            if (!_isHalfway && value)
+            if (!_isHalfway && isHalfway)
             {
                 transform.position = _startPosition;
                 _toFar = false;
             }
 
-            _isHalfway = value;
+            _isHalfway = isHalfway;
         }
     }
 }

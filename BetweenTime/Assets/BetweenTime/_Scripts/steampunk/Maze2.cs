@@ -22,7 +22,7 @@ namespace BetweenTime._Scripts.steampunk
             switch (state)
             {
                 case MainState.MazeActive:
-                    Anim(GameController.Instance.mazePositionsState.Value);
+                    Anim(GameController.instance.mazePositionsState.Value);
                     break;
                 case MainState.MazeSolved:
                     timecore.SetFreeze(false);

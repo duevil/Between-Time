@@ -18,7 +18,7 @@ public class MachineDoor : MonoBehaviour
 
     public void HandleTimeCode(ushort value)
     {
-        if (value != _Timecode || GameController.Instance.mainState.Value != MainState.BookBinarySolved) return;
+        if (value != _Timecode || GameController.instance.mainState.Value != MainState.BookBinarySolved) return;
 
         moveDoor(true);
         _socket.enabled = true;
@@ -33,12 +33,12 @@ public class MachineDoor : MonoBehaviour
 
     public void MainStateListener(MainState value)
     {
-        Set(GameController.Instance.timecodeState.Value, value);
+        Set(GameController.instance.timecodeState.Value, value);
     }
 
     public void TimecodeListener(ushort value)
     {
-        Set(value, GameController.Instance.mainState.Value);
+        Set(value, GameController.instance.mainState.Value);
     }
 
     private void Set(ushort timecode, MainState mainState)

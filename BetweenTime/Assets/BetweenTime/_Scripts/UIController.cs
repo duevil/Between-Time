@@ -41,7 +41,7 @@ namespace BetweenTime._Scripts
             infoText.text = value switch
             {
                 MainState.Idle => "Press main trigger to start the game",
-                MainState.GameWon => "Congratulations! You have saved the timelines!",
+                MainState.GameWon => "Congratulations You have saved the timelines!",
                 MainState.GameLost => "You have run out of time! All is lost...",
                 _ => ""
             };
@@ -72,7 +72,7 @@ namespace BetweenTime._Scripts
         /// <param name="_">Activate event arguments; not used</param>
         public static void OnActivate(ActivateEventArgs _)
         {
-            var gc = GameController.Instance;
+            var gc = GameController.instance;
             switch (gc.mainState.Value)
             {
                 case MainState.Idle:

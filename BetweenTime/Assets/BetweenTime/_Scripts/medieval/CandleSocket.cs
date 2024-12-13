@@ -25,10 +25,10 @@ namespace BetweenTime._Scripts.medieval
         {
             var socket = GetComponent<XRSocketInteractor>();
             socket.socketActive = false;
-            GameController.Instance.mainState.onChange.AddListener(value =>
-                SetSocketState(socket, value, GameController.Instance.timecodeState.Value));
-            GameController.Instance.timecodeState.onChange.AddListener(value =>
-                SetSocketState(socket, GameController.Instance.mainState.Value, value));
+            GameController.instance.mainState.onChange.AddListener(value =>
+                SetSocketState(socket, value, GameController.instance.timecodeState.Value));
+            GameController.instance.timecodeState.onChange.AddListener(value =>
+                SetSocketState(socket, GameController.instance.mainState.Value, value));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BetweenTime._Scripts.medieval
             // Check if all the correct candles are placed
             if (!Candle.k_ColorOrder.All(color => Placed.Exists(c => c.color == color))) return;
             Placed.ToList().ForEach(c => c.Freeze()); // Freeze all placed candles
-            GameController.Instance.mainState.Value = MainState.CandlesPlaced;
+            GameController.instance.mainState.Value = MainState.CandlesPlaced;
         }
 
         /// <summary>

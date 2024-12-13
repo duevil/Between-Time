@@ -110,7 +110,7 @@ namespace BetweenTime._Scripts.medieval
         {
             isLit = false;
             if (_colorIndex == -1) return;
-            GameController.Instance.candlesState.onChange.AddListener(value => isLit = value[_colorIndex]);
+            GameController.instance.candlesState.onChange.AddListener(value => isLit = value[_colorIndex]);
         }
 
         /// <summary>

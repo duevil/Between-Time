@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace BetweenTime._Scripts
@@ -26,7 +27,7 @@ namespace BetweenTime._Scripts
         [Tooltip("Duration of the game's timer in seconds")] [SerializeField]
         private int timerDuration = 300;
 
-        [Tooltip("The current time on the game's timer")] [ReadOnly] [SerializeField]
+        [FormerlySerializedAs("_timer")] [Tooltip("The current time on the game's timer")] [ReadOnly] [SerializeField]
         private float timer;
 
         [Tooltip("The game's main state machine's current state")]
@@ -53,25 +54,12 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     The current instance of the GameController
         /// </summary>
-        public static GameController Instance => GameObject.FindWithTag("GameController").ConvertTo<GameController>();
+        public static GameController instance => GameObject.FindWithTag("GameController").ConvertTo<GameController>();
 
         /// <summary>
         ///     Whether the game is currently running, i.e. not in the Idle, GameWon or GameLost state
         /// </summary>
-        public bool Running => mainState.Value is not (MainState.Idle or MainState.GameWon or MainState.GameLost);
-
-        /// <summary>
-        ///     The remaining time on the game's timer (in seconds)
-        /// </summary>
-        private float Timer
-        {
-            get => timer;
-            set
-            {
-                timer = Mathf.Max(0, value);
-                timerEvent.Invoke(timer);
-            }
-        }
+        private bool running => mainState.Value is not (MainState.Idle or MainState.GameWon or MainState.GameLost);
 
 
         /// <summary>
@@ -94,7 +82,7 @@ namespace BetweenTime._Scripts
                 }
 
                 _intervalTimer = 1; // Force publishing the timer value when reset
-                Timer = timerDuration + 0.999f; // Reset the timer
+                SetTimer(timerDuration + 0.999f); // Reset the timer
             });
 
             // Connect to the MQTT broker and set up the MQTT communication for all states
@@ -115,7 +103,7 @@ namespace BetweenTime._Scripts
                 Debug.LogError($"Error setting up MQTT communication: {e}");
             }
 
-            Timer = timerDuration + 0.999f; // Set the timer to the initial duration
+            SetTimer(timerDuration + 0.999f); // Set the timer to the initial duration
             timerEvent.AddListener(value =>
             {
                 if (_intervalTimer < 1) return;
@@ -131,12 +119,22 @@ namespace BetweenTime._Scripts
         /// </summary>
         private void FixedUpdate()
         {
-            if (!Running) return;
-            Timer -= Time.deltaTime; // Count down the timer
+            if (!running) return;
+            SetTimer(timer - Time.deltaTime); // Count down the timer
             if (_intervalTimer < 1) _intervalTimer += Time.deltaTime;
-            if (Timer > 0) return;
+            if (timer > 0) return;
             // Timer has run out while the game was not won, so the game is lost
             mainState.Value = MainState.GameLost;
+        }
+
+        /// <summary>
+        ///     Sets the timer value and invokes the timer event
+        /// </summary>
+        /// <param name="value">The new timer value</param>
+        private void SetTimer(float value)
+        {
+            timer = Mathf.Max(0, value);
+            timerEvent.Invoke(timer);
         }
 
 
@@ -174,8 +172,8 @@ namespace BetweenTime._Scripts
         {
             if (int.TryParse(value, out var intValue))
             {
-                Timer = intValue;
-                if (!Running) mainState.Value = MainState.Started;
+                SetTimer(intValue);
+                if (!running) mainState.Value = MainState.Started;
             }
             else
             {
@@ -213,8 +211,8 @@ namespace BetweenTime._Scripts
         /// <returns>Coroutine enumerator</returns>
         private IEnumerator Coroutine()
         {
-            Warp.Instance.Trigger();
-            yield return new WaitUntil(() => Mathf.Approximately(Warp.Instance.Value, 1f));
+            Warp.instance.Trigger();
+            yield return new WaitUntil(() => Mathf.Approximately(Warp.instance.value, 1f));
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             mainState.Value = MainState.Idle;
         }

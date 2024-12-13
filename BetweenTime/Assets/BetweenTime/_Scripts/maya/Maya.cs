@@ -114,7 +114,7 @@ namespace BetweenTime._Scripts.maya
         {
             PlayMoveSound(button.transform);
 
-            var gameController = GameController.Instance;
+            var gameController = GameController.instance;
             if (gameController.timecodeState.Value == Timecode)
             {
                 button.state = Button.State.Pressed;

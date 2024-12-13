@@ -24,7 +24,7 @@ public class GearSocket : MonoBehaviour
     {
         _door.moveDoor(false);
         GetComponent<XRSocketInteractor>().enabled = false;
-        GameController.Instance.mainState.Value = MainState.MazeActive;
+        GameController.instance.mainState.Value = MainState.MazeActive;
         _gear.GetComponent<Collider>().enabled = false;
         _gear.GetComponent <Outline>().OutlineWidth = 0;
     }

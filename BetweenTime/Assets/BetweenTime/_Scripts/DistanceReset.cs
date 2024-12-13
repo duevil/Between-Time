@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 namespace BetweenTime._Scripts
 {
@@ -15,6 +17,7 @@ namespace BetweenTime._Scripts
 
         private Vector3 _initialPosition; // The object's initial position
         private Quaternion _initialRotation; // The object's initial rotation
+        private Vector3 _lastPosition; // The object's last position
         private Rigidbody _rb; // The object's rigidbody
 
         /// <summary>
@@ -22,9 +25,12 @@ namespace BetweenTime._Scripts
         /// </summary>
         private void Start()
         {
+            _lastPosition = transform.position;
             _initialPosition = transform.position;
             _initialRotation = transform.rotation;
             _rb = GetComponent<Rigidbody>();
+            var grabInteractable = GetComponent<XRGrabInteractable>();
+            if (grabInteractable) grabInteractable.selectExited.AddListener(SetLastPosition);
         }
 
         /// <summary>
@@ -35,18 +41,18 @@ namespace BetweenTime._Scripts
         /// </summary>
         private void FixedUpdate()
         {
-            var displacement = _initialPosition - transform.position;
+            var displacement = _lastPosition - transform.position;
             var distanceSquared = displacement.sqrMagnitude;
 
             switch (distanceSquared)
             {
                 // if object is close enough, do nothing
-                case <= MaxDistance * 0.01f: break;
+                case <= MaxDistance * 0.025f: break;
                 // if object is within the maximum distance, apply a force to move it further away
                 case <= MaxDistance:
                 {
                     // Calculate the force to apply to the Rigidbody
-                    const float forceFactor = 0.01f;
+                    const float forceFactor = 0.075f;
                     var force = displacement.normalized * (forceFactor * distanceSquared);
                     _rb.AddForce(-force); // Force needs to be applied negatively ¯\_(ツ)_/¯
                     break;
@@ -58,6 +64,7 @@ namespace BetweenTime._Scripts
                     _rb.angularVelocity = Vector3.zero;
                     transform.position = _initialPosition;
                     transform.rotation = _initialRotation;
+                    _lastPosition = _initialPosition;
                     break;
             }
         }
@@ -72,6 +79,15 @@ namespace BetweenTime._Scripts
         {
             _initialPosition = position == default ? transform.position : position;
             _initialRotation = rotation == default ? transform.rotation : rotation;
+        }
+
+        /// <summary>
+        ///     Updates the last position of the object when it is deselected
+        /// </summary>
+        /// <param name="exitArgs">The arguments for the deselection event</param>
+        private void SetLastPosition(SelectExitEventArgs exitArgs)
+        {
+            _lastPosition = exitArgs.interactableObject.transform.position;
         }
     }
 }

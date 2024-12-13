@@ -17,6 +17,8 @@ namespace BetweenTime._Scripts
         [Tooltip("The color of the core")] [SerializeField]
         private Color color;
 
+        private Light _childLight;
+
         private Rigidbody _getComponent;
         private Oscillator _oscillator;
 
@@ -36,8 +38,8 @@ namespace BetweenTime._Scripts
                 material.SetColor(EmissionColor, color);
             }
 
-            var children = GetComponentInChildren<Light>();
-            if (children != null) children.color = color;
+            _childLight = GetComponentInChildren<Light>();
+            if (_childLight != null) _childLight.color = color;
 
             _xrGrabInteractable = GetComponent<XRGrabInteractable>();
             _getComponent = GetComponent<Rigidbody>();
@@ -49,11 +51,14 @@ namespace BetweenTime._Scripts
         ///     if frozen, the timecore is locked in place and interaction is disabled
         /// </summary>
         /// <param name="frozen">Whether the timecore should be frozen</param>
-        public void SetFreeze(bool frozen)
+        /// <param name="disableLight">Whether the light should be disabled when frozen</param>
+        public void SetFreeze(bool frozen, bool disableLight = true)
         {
             _xrGrabInteractable.enabled = !frozen;
             _getComponent.isKinematic = frozen;
             _oscillator.enabled = !frozen;
+            if (!_childLight) return;
+            _childLight.enabled = disableLight ? !frozen : _childLight.enabled;
         }
     }
 }

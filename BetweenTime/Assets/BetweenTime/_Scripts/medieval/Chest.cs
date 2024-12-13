@@ -32,7 +32,7 @@ namespace BetweenTime._Scripts.medieval
         {
             var timecore = GetComponentInChildren<Timecore>();
             timecore.SetFreeze(true);
-            GameController.Instance.mainState.onChange.AddListener(value =>
+            GameController.instance.mainState.onChange.AddListener(value =>
             {
                 if (value != MainState.BookBinarySolved && value != MainState.GameWon) return;
                 if (value == MainState.BookBinarySolved)
