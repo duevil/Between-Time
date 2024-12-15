@@ -1855,7 +1855,11 @@ PrefabInstance:
     - target: {fileID: 3099770239812107090, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: timecore
       value: 
-      objectReference: {fileID: 4368360393645311839}
+      objectReference: {fileID: 1952222746}
+    - target: {fileID: 5017189900250683848, guid: 52448a9a41d917047b18760342a82238, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6073877088675920873, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: m_Name
       value: Socket_2
@@ -2796,7 +2800,11 @@ PrefabInstance:
     - target: {fileID: 3099770239812107090, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: timecore
       value: 
-      objectReference: {fileID: 4368360393197033166}
+      objectReference: {fileID: 4368360393645311839}
+    - target: {fileID: 5373145745581734758, guid: 52448a9a41d917047b18760342a82238, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6073877088675920873, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: m_Name
       value: Socket_3
@@ -7012,6 +7020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db82749357e48f09dd7e83f87493e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victoryMusic: {fileID: 8300000, guid: c0d4f94038ac0584cb6b13e2ac3d106c, type: 3}
 --- !u!114 &1859048921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13743,7 +13752,11 @@ PrefabInstance:
     - target: {fileID: 3099770239812107090, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: timecore
       value: 
-      objectReference: {fileID: 1952222746}
+      objectReference: {fileID: 4368360393197033166}
+    - target: {fileID: 6018808438427903267, guid: 52448a9a41d917047b18760342a82238, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6073877088675920873, guid: 52448a9a41d917047b18760342a82238, type: 3}
       propertyPath: m_Name
       value: Socket_1
