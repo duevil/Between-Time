@@ -1,65 +1,67 @@
-using BetweenTime._Scripts;
+﻿using System.Collections;
 using BetweenTime._Scripts.@base;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class Maze : MonoBehaviour
+namespace BetweenTime._Scripts.steampunk
 {
-    [SerializeField] private GameObject timecore;
-
-    private new GameObject _light;
-
-    void Start()
+    public class Maze : SmoothLerpAnimation<Vector3, Vector3Lerp>
     {
-        _light = timecore.transform.Find("Point Light").gameObject;
-        DeactivateCore();
-    }
+        [SerializeField] 
+        private Timecore timecore;
 
-    public void HandleMainState(MainState value)
-    {
-        if (value != MainState.MazeActive) return;
+        private Vector3 position;
 
-        ActivateCore();
-    }
+        private const float Offset = 0.3738f;
+        private const float LerpDuration = 1f;
 
-    private void DeactivateCore()
-    {
-        _light.SetActive(false);
-        //timecore.GetComponent<Timecore>().SetFreeze(true);
-    }
-
-    private void ActivateCore()
-    {
-        _light.SetActive(true);
-        Debug.Log(timecore.name + " wurde aktiviert.");
-        //timecore.transform.position = transform.position;
-        //timecore.GetComponent<Timecore>().SetFreeze(true);
-    }
-
-
-    private static Vector3 MazePosToLocal(MazePosition mazePosition, Vector3 origin)
-    {
-        const float offset = 0.3837f;
-        return origin + new Vector3(
-            mazePosition.x + 1 * offset,
-            mazePosition.y + 1 * offset
-        );
-    }
-    
-    private class PosAnim : SmoothLerpAnimation<Vector3, Vector3Lerp>
-    {
-        private Vector3 _start;
-        
-        protected override void OnLerp(Vector3 value)
+        private void Start()
         {
-            // Todo set timecore pos
+            timecore.SetFreeze(true);
+            timecore.transform.localPosition = new Vector3(0f, 3.2f, 0.3829999f);
+            position = transform.position;
         }
 
-        public void Anim(MazePosition mazePosition)
+        public void MainStateListener(MainState state)
         {
-            var pos = MazePosToLocal(mazePosition, _start);
-            Lerp(0.5f, pos, _start);
+            switch (state)
+            {
+                case MainState.MazeActive:
+                    Anim(GameController.instance.mazePositionsState.Value);
+                    break;
+                case MainState.MazeSolved:
+                    StartCoroutine(MazeSolved());
+                    break;
+            }
+        }
+
+        public void MazePositionListener(MazePosition mazePosition)
+        {
+            Anim(mazePosition);
+        }
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        private IEnumerator MazeSolved()
+        {
+            Anim(new MazePosition(8, 7, Direction.None));
+            yield return new WaitForSeconds(LerpDuration);
+            timecore.transform.localScale = Vector3.one;
+            timecore.SetFreeze(false);
+        }
+
+        protected override void OnLerp(Vector3 value)
+        {
+            timecore.transform.position = value;
+        }
+
+        private void Anim(MazePosition mazePosition)
+        {
+            var currentPosition = timecore.transform.position;
+            var newPosition = new Vector3(
+                position.x,
+                position.y - Offset * mazePosition.y,
+                position.z + Offset * mazePosition.x);
+            Lerp(LerpDuration, newPosition, currentPosition);
         }
     }
 }

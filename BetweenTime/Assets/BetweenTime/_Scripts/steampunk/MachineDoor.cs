@@ -1,49 +1,62 @@
-using BetweenTime._Scripts;
 using BetweenTime._Scripts.@base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class MachineDoor : MonoBehaviour
+namespace BetweenTime._Scripts.steampunk
 {
-
-    private const ushort _Timecode = 0x14ea;
-
-    [SerializeField]
-    private XRSocketInteractor _socket;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class MachineDoor : MonoBehaviour
     {
-    }
+        private static readonly int Direction1 = Animator.StringToHash("direction");
+        private static readonly int Trigger = Animator.StringToHash("trigger");
 
-    public void HandleTimeCode(ushort value)
-    {
-        if (value != _Timecode || GameController.instance.mainState.Value != MainState.BookBinarySolved) return;
+        private const ushort Timecode = 0x14ea;
 
-        moveDoor(true);
-        _socket.enabled = true;
-    }
+        [SerializeField]
+        private XRSocketInteractor socket;
 
-    public void moveDoor(bool value)
-    {
-        var z = 140.0f;
-        if(!value) z = 0f;
-        transform.localEulerAngles = new Vector3(0, 0, z);
-    }
+        private bool _status = false;
 
-    public void MainStateListener(MainState value)
-    {
-        Set(GameController.instance.timecodeState.Value, value);
-    }
+        private Animator _animator;
 
-    public void TimecodeListener(ushort value)
-    {
-        Set(value, GameController.instance.mainState.Value);
-    }
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Start()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
-    private void Set(ushort timecode, MainState mainState)
-    {
+        private void MoveDoor(bool value)
+        {
+            var direction = 1f;
+
+            if (!value)
+            {
+                direction = -1f;
+            }
+
+            _animator.SetFloat(Direction1, direction);
+            _animator.SetTrigger(Trigger);
+        }
+
+        public void MainStateListener(MainState value)
+        {
+            Set(GameController.instance.timecodeState.Value, value);
+        }
+
+        public void TimeCodeListener(ushort value)
+        {
+            Set(value, GameController.instance.mainState.Value);
+        }
+
+        private void Set(ushort timecode, MainState mainState)
+        {
+            var movement = timecode == Timecode && mainState == MainState.BookBinarySolved;
         
-        moveDoor(timecode == _Timecode && mainState == MainState.BookBinarySolved);
+            if(movement == _status) return;
+            _status = movement;
+        
+            MoveDoor(movement);
+            socket.enabled = movement;
+        }
     }
 }

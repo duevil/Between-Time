@@ -1,31 +1,31 @@
-using BetweenTime._Scripts;
 using BetweenTime._Scripts.@base;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class GearSocket : MonoBehaviour
+namespace BetweenTime._Scripts.steampunk
 {
-    [SerializeField]
-    private MachineDoor _door;
-
-    [SerializeField]
-    private GameObject _gear;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class GearSocket : MonoBehaviour
     {
-        var socket = GetComponent<XRSocketInteractor>();
-        socket.enabled = false;
-        socket.selectEntered.AddListener(OnSelectEntered);
-    }
+        [SerializeField]
+        private MachineDoor door;
 
-    private void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        _door.moveDoor(false);
-        GetComponent<XRSocketInteractor>().enabled = false;
-        GameController.instance.mainState.Value = MainState.MazeActive;
-        _gear.GetComponent<Collider>().enabled = false;
-        _gear.GetComponent <Outline>().OutlineWidth = 0;
+        [SerializeField]
+        private GameObject gear;
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Start()
+        {
+            var socket = GetComponent<XRSocketInteractor>();
+            socket.enabled = false;
+            socket.selectEntered.AddListener(OnSelectEntered);
+        }
+
+        private void OnSelectEntered(SelectEnterEventArgs args)
+        {
+            GameController.instance.mainState.Value = MainState.MazeActive;
+            gear.GetComponent<Collider>().enabled = false;
+            gear.GetComponent <Outline>().OutlineWidth = 0;
+        }
     }
 }
