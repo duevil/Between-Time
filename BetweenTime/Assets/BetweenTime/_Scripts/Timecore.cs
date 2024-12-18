@@ -58,7 +58,7 @@ namespace BetweenTime._Scripts
             _getComponent.isKinematic = frozen;
             _oscillator.enabled = !frozen;
             if (!_childLight) return;
-            _childLight.enabled = disableLight ? !frozen : _childLight.enabled;
+            _childLight.enabled = !(disableLight && frozen);
         }
     }
 }

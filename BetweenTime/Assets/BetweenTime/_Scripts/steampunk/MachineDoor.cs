@@ -1,21 +1,20 @@
 using BetweenTime._Scripts.@base;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace BetweenTime._Scripts.steampunk
 {
     public class MachineDoor : MonoBehaviour
     {
-        private static readonly int Direction1 = Animator.StringToHash("direction");
-        private static readonly int Trigger = Animator.StringToHash("trigger");
+        private static readonly int TriggerOpen = Animator.StringToHash("open");
+        private static readonly int TriggerClose = Animator.StringToHash("close");
 
         private const ushort Timecode = 0x14ea;
 
         [SerializeField]
         private XRSocketInteractor socket;
 
-        private bool _status = false;
+        private bool _status;
 
         private Animator _animator;
 
@@ -23,19 +22,6 @@ namespace BetweenTime._Scripts.steampunk
         private void Start()
         {
             _animator = GetComponent<Animator>();
-        }
-
-        private void MoveDoor(bool value)
-        {
-            var direction = 1f;
-
-            if (!value)
-            {
-                direction = -1f;
-            }
-
-            _animator.SetFloat(Direction1, direction);
-            _animator.SetTrigger(Trigger);
         }
 
         public void MainStateListener(MainState value)
@@ -51,11 +37,9 @@ namespace BetweenTime._Scripts.steampunk
         private void Set(ushort timecode, MainState mainState)
         {
             var movement = timecode == Timecode && mainState == MainState.BookBinarySolved;
-        
             if(movement == _status) return;
             _status = movement;
-        
-            MoveDoor(movement);
+            _animator.SetTrigger(movement ? TriggerOpen : TriggerClose);
             socket.enabled = movement;
         }
     }

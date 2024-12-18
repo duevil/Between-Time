@@ -5011,15 +5011,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4368360395083391358, guid: c96958d56c8843144aa133b330339cfa, type: 3}
       propertyPath: color.b
-      value: 0.17254902
+      value: 0.22761661
       objectReference: {fileID: 0}
     - target: {fileID: 4368360395083391358, guid: c96958d56c8843144aa133b330339cfa, type: 3}
       propertyPath: color.g
-      value: 0.18431373
+      value: 0.24730575
       objectReference: {fileID: 0}
     - target: {fileID: 4368360395083391358, guid: c96958d56c8843144aa133b330339cfa, type: 3}
       propertyPath: color.r
-      value: 0.5372549
+      value: 0.8773585
       objectReference: {fileID: 0}
     - target: {fileID: 5828972925108439731, guid: c96958d56c8843144aa133b330339cfa, type: 3}
       propertyPath: m_LocalScale.x
@@ -6501,6 +6501,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4775212267058943709, guid: c3a89e156beb9c645bb9c90af7f6701c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775212267058943709, guid: c3a89e156beb9c645bb9c90af7f6701c, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -6608,7 +6612,7 @@ MonoBehaviour:
   m_InteractableHoverScale: 1
   m_RecycleDelayTime: 1
   m_HoverSocketSnapping: 1
-  m_SocketSnappingRadius: 0.1
+  m_SocketSnappingRadius: 0.3
   m_SocketScaleMode: 0
   m_FixedScale: {x: 1, y: 1, z: 1}
   m_TargetBoundsSize: {x: 1, y: 1, z: 1}

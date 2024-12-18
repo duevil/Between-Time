@@ -51,7 +51,7 @@ namespace BetweenTime._Scripts.steampunk
                 for (var j = 0; j<LabySize; j++)
                 {
                     var pipeType = _labyrinth[i,j];
-                    GameObject pipe;
+                    GameObject pipe = null;
 
                     switch (pipeType)
                     {
@@ -110,6 +110,8 @@ namespace BetweenTime._Scripts.steampunk
                             Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation, gameObject.transform);
                             break;
                     }
+
+                    pipe?.AddComponent<BoxCollider>();
                     pos = new Vector3(pos.x, pos.y, pos.z + CellToCelldistance);
                 }
                 pos = new Vector3(pos.x, pos.y - CellToCelldistance, startZ);

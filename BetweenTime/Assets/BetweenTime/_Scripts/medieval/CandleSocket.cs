@@ -13,7 +13,7 @@ namespace BetweenTime._Scripts.medieval
     /// </summary>
     public class CandleSocket : MonoBehaviour
     {
-        private const ushort Timecode = 0x4001; // The timecode to sync for this puzzle
+        public const ushort Timecode = 0x4001; // The timecode to sync for this puzzle
         private static readonly List<Candle> Placed = new(); // The list of candles placed in the socket
 
 
