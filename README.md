@@ -1,92 +1,75 @@
-# xrWS24
+# BETWEEN TIME
 
+An unknown entity has emerged, endangering the whole space-time-continuum. More and more time-rifts are appearing over
+and over again, creating a mysterious space **Between Time**! Now it’s up to you to fight the entity and to close the
+time-rift to prevent the fatal collapse of time and space itself.
 
+## The Mission
 
-## Getting started
+You are two agents tasked with protecting the space-time-continuum. To achieve this you must solve three individual
+puzzles – each originating from their own spacetime – and extract their corresponding **Timecore**, which are to be
+placed
+in their analogous socket. Only when this is completed the time-rift can be closed and the space-time-continuum will be
+saved.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Mastering this task alone would be impossible – thus you are paired as a team:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **Agent V**, deployed to act inside the rift itself and equipped with a counterpart to the time controller.
+- **Agent R**, provided with a powerful time controller able to communicate and affect spacetime.
+  Only together through communication and teamwork are you able to solve the difficult challenges you are confronted
+  with.
 
-## Add your files
+But be aware: Time is running against you and only limit resource are provided to achieve your goal, so act fast!
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## The Puzzles
 
-```
-cd existing_repo
-git remote add origin https://git.hs-harz.de/xrws24/xrws24.git
-git branch -M main
-git push -uf origin main
-```
+1. **The Mayan Temple:** Enter a long forgotten code to open the temple’s top, revealing a Timecore of ancient past.
+2. **The Medieval Altar:** Light the righteous candles and unlock the chest to access a Timecore of archaic properties.
+3. **The Industrial Maze:** Start the machine and guide its Timecore through an entangled mesh of pipes to harness its
+   steam-driven power.
 
-## Integrate with your tools
+## The Timecodes
 
-- [ ] [Set up project integrations](https://git.hs-harz.de/xrws24/xrws24/-/settings/integrations)
+For being able to interact with a specific timeline the time controller needs to be synced to a particular **Timecode**.
+Only then are you able to manipulate its puzzle and progress in your mission.
 
-## Collaborate with your team
+---
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+# BETWEEN TIME - Deutsche Version
 
-## Test and Deploy
+Ein unbekanntes Wesen ist aufgetaucht und bedroht das gesamte Raum-Zeit-Kontinuum. Immer mehr Zeitsprünge tauchen
+immer wieder auf und schaffen einen mysteriösen Raum **zwischen den Zeiten**! Jetzt liegt es an dir, das Wesen zu
+bekämpfen und den Zeitsprung zu schließen, um den fatalen Zusammenbruch von Zeit und Raum zu verhindern.
 
-Use the built-in continuous integration in GitLab.
+## Der Auftrag
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Ihr seid zwei Agenten, die den Auftrag haben, das Raum-Zeit-Kontinuum zu schützen. Um dies zu erreichen, müsst ihr
+drei einzelne Rätsel lösen – die jeweils aus eurer eigenen Raumzeit stammen – und die entsprechenden **Timecores**
+extrahieren, die in den entsprechenden Sockel eingesetzt werden sollen. Erst dann kann der Zeitsprung geschlossen
+werden und das Raum-Zeit-Kontinuum ist gerettet.
 
-***
+Alleine wäre diese Aufgabe unmöglich zu bewältigen – deshalb werden Sie als Team zusammengeführt:
 
-# Editing this README
+- **Agent V**, der im Riss selbst agiert und mit einem Gegenstück zum Zeitkontrollgerät ausgestattet ist.
+- **Agent R**, ausgestattet mit einem mächtigen Time Controller, der kommunizieren und die Raumzeit beeinflussen kann.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Nur gemeinsam, durch Kommunikation und Teamarbeit, können Sie die schwierigen Aufgaben lösen, mit denen Sie
+konfrontiert werden. Aber seien Sie sich bewusst: Die Zeit läuft gegen Sie und es stehen Ihnen nur begrenzte
+Ressourcen zur Verfügung, um Ihr Ziel zu erreichen, also handeln Sie schnell!
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Die Rätsel
 
-## Name
-Choose a self-explaining name for your project.
+1. **Der Maya-Tempel:** Geben Sie einen längst vergessenen Code ein, um das Dach des Tempels zu öffnen und einen
+   Zeitkern
+   der alten Vergangenheit zu enthüllen.
+2. **Der mittelalterliche Altar:** Zünde die Kerzen der Gerechten an und öffne die Truhe, um einen Zeitkern mit
+   archaischen
+   Eigenschaften zu öffnen.
+3. **Das industrielle Labyrinth:** Starte die Maschine und führe ihren Zeitkern durch ein verschlungenes Netz von
+   Rohren, um
+   ihre dampfgetriebene Kraft zu nutzen.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Die Timecodes
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Um mit einer bestimmten Zeitlinie interagieren zu können, muss der Timecontroller mit einem bestimmten **Timecode**
+synchronisiert werden. Nur dann können Sie das Rätsel manipulieren und in Ihrer Mission vorankommen.
