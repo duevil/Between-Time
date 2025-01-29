@@ -1,6 +1,8 @@
 using BetweenTime._Scripts.@base;
 using UnityEngine;
 
+// TODO: Comments
+
 namespace BetweenTime._Scripts.steampunk
 {
     public class Gear : MonoBehaviour
@@ -14,7 +16,7 @@ namespace BetweenTime._Scripts.steampunk
 
         public void MainStateListener(MainState state)
         {
-            if(state == MainState.BookBinarySolved && _collider.enabled == false)
+            if (state == MainState.BookBinarySolved && !_collider.enabled)
                 _collider.enabled = true;
         }
     }

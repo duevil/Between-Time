@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using uPLibrary.Networking.M2Mqtt;
 
 namespace BetweenTime._Scripts
@@ -27,7 +26,7 @@ namespace BetweenTime._Scripts
         [Tooltip("Duration of the game's timer in seconds")] [SerializeField]
         private int timerDuration = 300;
 
-        [FormerlySerializedAs("_timer")] [Tooltip("The current time on the game's timer")] [ReadOnly] [SerializeField]
+        [Tooltip("The current time on the game's timer")] [ReadOnly] [SerializeField]
         private float timer;
 
         [Tooltip("The game's main state machine's current state")]
@@ -42,6 +41,7 @@ namespace BetweenTime._Scripts
         [Tooltip("The current position of the player in the maze")]
         public State<MazePosition, MazePosition.Parser> mazePositionsState = new();
 
+        // unused due to the corresponding puzzle not being implemented
         [Tooltip("The number of items scanned by the player")]
         public State<byte, BasicParser<byte>> scannedItemsState = new();
 
@@ -59,7 +59,7 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     Whether the game is currently running, i.e. not in the Idle, GameWon or GameLost state
         /// </summary>
-        private bool running => mainState.Value is not (MainState.Idle or MainState.GameWon or MainState.GameLost);
+        private bool running => mainState.value is not (MainState.Idle or MainState.GameWon or MainState.GameLost);
 
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace BetweenTime._Scripts
             if (_intervalTimer < 1) _intervalTimer += Time.deltaTime;
             if (timer > 0) return;
             // Timer has run out while the game was not won, so the game is lost
-            mainState.Value = MainState.GameLost;
+            mainState.value = MainState.GameLost;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace BetweenTime._Scripts
         public void SetMainState(string value)
         {
             if (Enum.TryParse<MainState>(value, true, out var enumValue))
-                mainState.Value = enumValue;
+                mainState.value = enumValue;
             else
                 Debug.LogWarning($"Could not parse '{value}' to MainState");
         }
@@ -159,7 +159,7 @@ namespace BetweenTime._Scripts
         public void SetTimecode(string value)
         {
             if (ushort.TryParse(value, NumberStyles.HexNumber, null, out var ushortValue))
-                timecodeState.Value = ushortValue;
+                timecodeState.value = ushortValue;
             else
                 Debug.LogWarning($"Could not parse '{value}' to ushort");
         }
@@ -173,7 +173,7 @@ namespace BetweenTime._Scripts
             if (int.TryParse(value, out var intValue))
             {
                 SetTimer(intValue);
-                if (!running) mainState.Value = MainState.Started;
+                if (!running) mainState.value = MainState.Started;
             }
             else
             {
@@ -214,7 +214,7 @@ namespace BetweenTime._Scripts
             Warp.instance.Trigger();
             yield return new WaitUntil(() => Mathf.Approximately(Warp.instance.value, 1f));
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            mainState.Value = MainState.Idle;
+            mainState.value = MainState.Idle;
         }
 
 

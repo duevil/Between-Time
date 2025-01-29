@@ -59,7 +59,7 @@ namespace BetweenTime._Scripts.medieval
             { Colors[9], Symbol._9 },
             { Colors[10], Symbol._10 },
             { Colors[11], Symbol._11 }
-        }; 
+        };
 
         // The colors that have been assigned to a candle
         private static readonly List<Color> AssignedColors = new();

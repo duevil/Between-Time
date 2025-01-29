@@ -5,7 +5,6 @@
     /// </summary>
     /// <param name="x">The horizontal position</param>
     /// <param name="y">The vertical position</param>
-    /// <param name="direction">The direction in which the maze has moved after being updated</param>
     public record MazePosition(int x, int y)
     {
         /// <summary>

@@ -36,8 +36,6 @@ namespace BetweenTime._Scripts
         /// <param name="value">The current main state</param>
         public void UpdateInfoFromMainState(MainState value)
         {
-            // TODO: Add info text for the other main states
-
             infoText.text = value switch
             {
                 MainState.Idle => "Press main trigger to start the game",
@@ -73,10 +71,10 @@ namespace BetweenTime._Scripts
         public static void OnActivate(ActivateEventArgs _)
         {
             var gc = GameController.instance;
-            switch (gc.mainState.Value)
+            switch (gc.mainState.value)
             {
                 case MainState.Idle:
-                    gc.mainState.Value = MainState.Started;
+                    gc.mainState.value = MainState.Started;
                     break;
                 case MainState.GameWon or MainState.GameLost:
                     gc.RestartGame();

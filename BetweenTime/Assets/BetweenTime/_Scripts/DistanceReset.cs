@@ -70,18 +70,6 @@ namespace BetweenTime._Scripts
         }
 
         /// <summary>
-        ///     Sets the object's initial position and rotation; if no position or rotation is provided,
-        ///     the object's current position and rotation are used
-        /// </summary>
-        /// <param name="position">The position to use as the initial position</param>
-        /// <param name="rotation">The rotation to use as the initial rotation</param>
-        public void SetInitialTransform(Vector3 position = default, Quaternion rotation = default)
-        {
-            _initialPosition = position == default ? transform.position : position;
-            _initialRotation = rotation == default ? transform.rotation : rotation;
-        }
-
-        /// <summary>
         ///     Updates the last position of the object when it is deselected
         /// </summary>
         /// <param name="exitArgs">The arguments for the deselection event</param>

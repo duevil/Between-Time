@@ -40,6 +40,7 @@ namespace BetweenTime._Scripts.medieval
                     GetComponent<AudioSource>().Play();
                     timecore.SetFreeze(false);
                 }
+
                 _animator.SetTrigger(value == MainState.BookBinarySolved ? Open : Close);
             });
         }

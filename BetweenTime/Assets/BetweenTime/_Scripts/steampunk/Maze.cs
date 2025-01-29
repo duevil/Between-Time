@@ -2,17 +2,18 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+// TODO: Comments
+
 namespace BetweenTime._Scripts.steampunk
 {
     public class Maze : SmoothLerpAnimation<Vector3, Vector3Lerp>
     {
-        [SerializeField] private Timecore timecore;
-
-        private Vector3 _position;
-        private bool _finished;
-
         private const float Offset = 0.3738f;
         private const float LerpDuration = 0.75f;
+        [SerializeField] private Timecore timecore;
+        private bool _finished;
+
+        private Vector3 _position;
 
         private void Start()
         {
@@ -28,7 +29,7 @@ namespace BetweenTime._Scripts.steampunk
             {
                 case MainState.MazeActive:
                     timecore.SetFreeze(true, false);
-                    Anim(GameController.instance.mazePositionsState.Value);
+                    Anim(GameController.instance.mazePositionsState.value);
                     break;
             }
         }
@@ -45,8 +46,8 @@ namespace BetweenTime._Scripts.steampunk
 
         protected override void OnLerpEnd()
         {
-            if (GameController.instance.mainState.Value != MainState.MazeSolved || _finished) return;
-            var pos = GameController.instance.mazePositionsState.Value;
+            if (GameController.instance.mainState.value != MainState.MazeSolved || _finished) return;
+            var pos = GameController.instance.mazePositionsState.value;
             Anim(new MazePosition(pos.x + 1, pos.y));
             timecore.GetComponent<ScaleLerp>().ScaleUp();
             _finished = true;
@@ -61,7 +62,7 @@ namespace BetweenTime._Scripts.steampunk
                 _position.z + Offset * mazePosition.x);
             Lerp(LerpDuration, newPosition, currentPosition);
         }
-        
+
         private class ScaleLerp : SmoothLerpAnimation<Vector3, Vector3Lerp>
         {
             protected override void OnLerp(Vector3 value)

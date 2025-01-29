@@ -51,7 +51,7 @@ namespace BetweenTime._Scripts
             PlacedCores.Add(timecore);
 
             if (!PlacedCores.SetEquals(AllCores)) return;
-            GameController.instance.mainState.Value = MainState.GameWon;
+            GameController.instance.mainState.value = MainState.GameWon;
             foreach (var placedCore in PlacedCores.ToList()) placedCore.SetFreeze(true, false);
         }
 

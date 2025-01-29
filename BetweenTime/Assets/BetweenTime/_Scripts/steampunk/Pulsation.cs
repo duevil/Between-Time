@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BetweenTime._Scripts.steampunk
 {
     /// <summary>
-    ///     Class for pulsating an object
+    ///     Class for slightly scaling an object along its x- and y-axes to create a pulsation effect
     /// </summary>
     public class Pulsation : MonoBehaviour
     {

@@ -37,7 +37,7 @@ namespace BetweenTime._Scripts
         private string topic;
 
         [Tooltip("The current value of the state")] [ReadOnly] [SerializeField]
-        private string value; // string representation of the value
+        private string valueStr; // string representation of the value
 
         [Tooltip("Event that is invoked when the value changes")]
         public UnityEvent<T> onChange = new();
@@ -51,7 +51,7 @@ namespace BetweenTime._Scripts
         /// <summary>
         ///     The current value of the state
         /// </summary>
-        public T Value
+        public T value
         {
             get => _value;
             set
@@ -79,7 +79,7 @@ namespace BetweenTime._Scripts
                 if (args.Topic != topic) return;
                 var v = Encoding.UTF8.GetString(args.Message);
                 Debug.Log($"Received message on topic {args.Topic}: {v}");
-                Value = _parser.From(v);
+                value = _parser.From(v);
             };
             // Add a listener to the onChange event to publish the new value to the topic
             onChange.AddListener(_ => PublishValue(client));
@@ -91,9 +91,9 @@ namespace BetweenTime._Scripts
         /// <param name="client">The MQTT client to use for communication</param>
         public void PublishValue(MqttClient client)
         {
-            value = _parser.To(_value);
-            var message = Encoding.UTF8.GetBytes(value);
-            Debug.Log($"Publishing message on topic {topic}: {value}");
+            valueStr = _parser.To(_value);
+            var message = Encoding.UTF8.GetBytes(valueStr);
+            Debug.Log($"Publishing message on topic {topic}: {valueStr}");
             client.Publish(topic, message, 0, true);
         }
 
@@ -102,7 +102,7 @@ namespace BetweenTime._Scripts
         /// </summary>
         public void Reset()
         {
-            Value = new T();
+            value = new T();
         }
     }
 }

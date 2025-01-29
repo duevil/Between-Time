@@ -9,10 +9,10 @@ namespace BetweenTime._Scripts
     public class MusicPlayer : MonoBehaviour
     {
         [Tooltip("The music to play when the game is won")] [SerializeField]
-        private AudioClip victoryMusic; 
-        
+        private AudioClip victoryMusic;
+
         private AudioSource _audioSource; // The audio source component of the music player
-        
+
         /// <summary>
         ///     Initializes the audio source component on enable
         /// </summary>

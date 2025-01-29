@@ -1,4 +1,4 @@
-﻿# Music Credits
+﻿# Music License
 
 **"Spacial Harvest" by Kevin MacLeod (incompetech.com)**
 

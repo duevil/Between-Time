@@ -13,7 +13,7 @@ namespace BetweenTime._Scripts.medieval
     /// </summary>
     public class CandleSocket : MonoBehaviour
     {
-        public const ushort Timecode = 0x4001; // The timecode to sync for this puzzle
+        private const ushort Timecode = 0x4001; // The timecode to sync for this puzzle
         private static readonly List<Candle> Placed = new(); // The list of candles placed in the socket
 
 
@@ -26,9 +26,9 @@ namespace BetweenTime._Scripts.medieval
             var socket = GetComponent<XRSocketInteractor>();
             socket.socketActive = false;
             GameController.instance.mainState.onChange.AddListener(value =>
-                SetSocketState(socket, value, GameController.instance.timecodeState.Value));
+                SetSocketState(socket, value, GameController.instance.timecodeState.value));
             GameController.instance.timecodeState.onChange.AddListener(value =>
-                SetSocketState(socket, GameController.instance.mainState.Value, value));
+                SetSocketState(socket, GameController.instance.mainState.value, value));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BetweenTime._Scripts.medieval
             // Check if all the correct candles are placed
             if (!Candle.k_ColorOrder.All(color => Placed.Exists(c => c.color == color))) return;
             Placed.ToList().ForEach(c => c.Freeze()); // Freeze all placed candles
-            GameController.instance.mainState.Value = MainState.CandlesPlaced;
+            GameController.instance.mainState.value = MainState.CandlesPlaced;
         }
 
         /// <summary>

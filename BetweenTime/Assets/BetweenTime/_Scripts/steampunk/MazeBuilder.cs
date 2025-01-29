@@ -1,221 +1,86 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BetweenTime._Scripts.steampunk
 {
+    /// <summary>
+    ///     Builds a maze using the provided pipe models and a predefined maze layout
+    /// </summary>
     public class MazeBuilder : MonoBehaviour
     {
-        [SerializeField] private GameObject pipeCurved;
+        // Distance between cells in the maze
+        private const float CellToCellDistance = 0.3738f;
 
-        [SerializeField] private GameObject pipeStraight;
-
-        [SerializeField] private GameObject pipeStraightEnd;
-
-        [SerializeField] private GameObject pipeXJunction;
-
-        [SerializeField] private GameObject pipeTJunction;
-
-        private readonly char[,] _labyrinth =
+        // Maze layout; each uint represents a row of the maze of 8 cells
+        // with 4 bits per cell (1 hex digit) representing the walls
+        private static readonly uint[] Maze =
         {
-            { '3', 'b', '9', '1', '5', '5', '5', '3' },
-            { 'a', 'c', '2', 'c', '5', '3', '9', '6' },
-            { 'c', '3', 'c', '3', '9', '6', 'a', 'b' },
-            { 'b', 'a', 'd', '6', 'c', '3', 'a', 'a' },
-            { 'a', 'c', '3', '9', '3', 'a', 'c', '2' },
-            { '8', '5', '6', 'a', 'c', '6', 'd', '2' },
-            { 'c', '3', 'd', '4', '5', '5', '3', 'a' },
-            { 'd', '4', '5', '5', '5', '5', '6', 'c' }
+            0x355519B3,
+            0x6935C2CA,
+            0xBA693C3C,
+            0xAA3C6DAB,
+            0x2CA393CA,
+            0x2D6CA658,
+            0xA3554D3C,
+            0xC655554D
         };
 
-        private const int LabySize = 8;
+        [Tooltip("The pipe model for a curved pipe")] [SerializeField]
+        private GameObject pipeCurved;
 
-        private const float CellToCelldistance = 0.3738f;
+        [Tooltip("The pipe model for a straight pipe")] [SerializeField]
+        private GameObject pipeStraight;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        [Tooltip("The pipe model for a straight pipe with an end")] [SerializeField]
+        private GameObject pipeStraightEnd;
+
+        [Tooltip("The pipe model for a cross junction")] [SerializeField]
+        private GameObject pipeXJunction;
+
+        [Tooltip("The pipe model for a T junction")] [SerializeField]
+        private GameObject pipeTJunction;
+
+        /// <summary>
+        ///     Parses the maze layout and builds the maze in the scene by
+        ///     calculating the position and rotation of each pipe and
+        ///     instantiating the corresponding pipe model with an attached collider
+        /// </summary>
         private void Start()
         {
-            BuildLabyrinth();
-        }
-
-        private void BuildLabyrinth()
-        {
-            var pos = gameObject.transform.position;
-            var startZ = pos.z;
-
-            for (var i = 0; i < LabySize; i++)
+            var position = gameObject.transform.position;
+            foreach (var row in Maze)
             {
-                for (var j = 0; j < LabySize; j++)
+                for (var i = 0; i < Maze.Length; i++)
                 {
-                    var pipeType = _labyrinth[i, j];
-                    GameObject pipe = null;
-
-                    switch (pipeType)
+                    // Extract the walls from the row
+                    var walls = (row >> (i * 4)) & 0xF;
+                    // Wall layout to corresponding pipe model
+                    var pipe = walls switch
                     {
-                        case '1':
-                            pipe = PipeType1();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '2':
-                            pipe = PipeType2();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '3':
-                            pipe = PipeType3();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '4':
-                            pipe = PipeType4();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '5':
-                            pipe = PipeType5();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '6':
-                            pipe = PipeType6();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        /*
-                    case '7':
-                        pipe = pipeType7();
-                        Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation, gameObject.transform);
-                        break;
-                    */
-                        case '8':
-                            pipe = PipeType8();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case '9':
-                            pipe = PipeType9();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case 'a':
-                            pipe = PipeTypeA();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case 'b':
-                            pipe = PipeTypeB();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case 'c':
-                            pipe = PipeTypeC();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                        case 'd':
-                            pipe = PipeTypeD();
-                            pipe = Instantiate(pipe, new Vector3(pos.x, pos.y, pos.z), pipe.transform.rotation,
-                                gameObject.transform);
-                            break;
-                    }
-
-                    pipe?.AddComponent<BoxCollider>();
-                    pos = new Vector3(pos.x, pos.y, pos.z + CellToCelldistance);
+                        0x0 => pipeXJunction,
+                        0x1 or 0x2 or 0x4 or 0x8 => pipeTJunction,
+                        0x3 or 0x6 or 0x9 or 0xC => pipeCurved,
+                        0x7 or 0xB or 0xD or 0xE => pipeStraightEnd,
+                        0x5 or 0xA => pipeStraight,
+                        _ => null
+                    };
+                    // 2D clockwise rotation of the models in degrees
+                    var rotation = walls switch
+                    {
+                        0x1 or 0x3 or 0x5 or 0xD => 90,
+                        0x2 or 0x6 or 0xB => 180,
+                        0x4 or 0x7 or 0xC => 270,
+                        _ => 0 // 0x0 or 0x8 or 0x9 or 0xA or 0xE
+                    };
+                    var instance = Instantiate(pipe, position, Quaternion.Euler(0, 90, rotation), gameObject.transform);
+                    instance.AddComponent<BoxCollider>();
+                    position.z += CellToCellDistance;
                 }
 
-                pos = new Vector3(pos.x, pos.y - CellToCelldistance, startZ);
+                // Reset the horizontal position to the start of the row
+                position.z -= Maze.Length * CellToCellDistance;
+                // Move the vertical position to the next row
+                position.y -= CellToCellDistance;
             }
-        }
-
-        private GameObject PipeType1()
-        {
-            var pipe = pipeTJunction;
-            pipe.transform.rotation = Quaternion.Euler(180, -90, -90);
-            return pipe;
-        }
-
-        private GameObject PipeType2()
-        {
-            var pipe = pipeTJunction;
-            pipe.transform.rotation = Quaternion.Euler(0, -90, 0);
-            return pipe;
-        }
-
-        private GameObject PipeType3()
-        {
-            var pipe = pipeCurved;
-            pipe.transform.rotation = Quaternion.Euler(0, -90, 0);
-            return pipe;
-        }
-
-        private GameObject PipeType4()
-        {
-            var pipe = pipeTJunction;
-            pipe.transform.rotation = Quaternion.Euler(0, 90, -90);
-            return pipe;
-        }
-
-        private GameObject PipeType5()
-        {
-            var pipe = pipeStraight;
-            pipe.transform.rotation = Quaternion.Euler(-90, 0, 0);
-            return pipe;
-        }
-
-        private GameObject PipeType6()
-        {
-            var pipe = pipeCurved;
-            pipe.transform.rotation = Quaternion.Euler(0, -90, -90);
-            return pipe;
-        }
-
-        /*
-            private GameObject PipeType7()
-            {
-
-            }
-        */
-
-        private GameObject PipeType8()
-        {
-            var pipe = pipeTJunction;
-            pipe.transform.rotation = Quaternion.Euler(0, 90, 0);
-            return pipe;
-        }
-
-        private GameObject PipeType9()
-        {
-            var pipe = pipeCurved;
-            pipe.transform.rotation = Quaternion.Euler(0, 90, 0);
-            return pipe;
-        }
-
-        private GameObject PipeTypeA()
-        {
-            var pipe = pipeStraight;
-            pipe.transform.rotation = Quaternion.Euler(180, 0, 0);
-            return pipe;
-        }
-
-        private GameObject PipeTypeB()
-        {
-            var pipe = pipeStraightEnd;
-            pipe.transform.rotation = Quaternion.Euler(180, 0, 0);
-            return pipe;
-        }
-
-        private GameObject PipeTypeC()
-        {
-            var pipe = pipeCurved;
-            pipe.transform.rotation = Quaternion.Euler(0, 90, -90);
-            return pipe;
-        }
-
-        private GameObject PipeTypeD()
-        {
-            var pipe = pipeStraightEnd;
-            pipe.transform.rotation = Quaternion.Euler(-90, 180, 0);
-            return pipe;
         }
     }
 }

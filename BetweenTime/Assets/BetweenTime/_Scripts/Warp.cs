@@ -87,7 +87,8 @@ namespace BetweenTime._Scripts
         }
 
         /// <summary>
-        ///     Marks the warp as halfway done
+        ///     Marks the warp as halfway done to reset the player's position the first time the warp
+        ///     exceeds its halfway point
         /// </summary>
         /// <param name="isHalfway">Whether the warp is halfway done</param>
         public void MarkHalfway(bool isHalfway)

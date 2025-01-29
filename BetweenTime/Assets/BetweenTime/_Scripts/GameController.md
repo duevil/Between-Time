@@ -13,9 +13,9 @@
 
 ## Overview
 
-The game controller provides the variables for the different states of the game used to control the game flow.
-The state variables are linked with a corresponding MQTT topic, being subscribed for external changes and publishing
-their value when changing.
+The game controller is the heart of the game's logic and state machine. It provides the variables for the different
+states of the game used to control the game flow. The state variables are linked with a corresponding MQTT topic, being
+subscribed for external changes and publishing their value when changing.
 
 The GameController also handles the game's timer, starting and stopping it based on the current main state.
 
@@ -23,10 +23,11 @@ The GameController also handles the game's timer, starting and stopping it based
 
 ### Scripting
 
-The GameController uses a Singleton to provide an instance for use in other scripts:
+To access the GameController instance, the `GameController` class provides a static property `instance` that holds the
+current scene's GameController instance tagged with the `GameController` tag.
 
 ```csharp
-GameController.Instance
+GameController.instance
 ```
 
 The instance can be used for accessing the game's states and the timer:
@@ -38,7 +39,6 @@ GameController.Instance.candlesState        // The current state of the candles
 GameController.Instance.mazePositionState   // The current position of the player in the maze
 GameController.Instance.scannedItemsState   // The number of items scanned by the player
 GameController.Instance.Running             // Whether the game is currently running
-GameController.Instance.Timer               // The remaining time of the game's timer
 ```
 
 ### Inspector
@@ -98,7 +98,8 @@ The different states each hold a different value type:
   var y = GameController.Instance.mazePositionState.Value.Y;
   // Do something with x and y ...
   ```
-- The `scannedItemsState` currently only holds a plain integer value that has no further representation.
+- The `scannedItemsState` currently only holds a plain integer value that has no further representation, as it was
+  planned to be used for another puzzle that was not implemented.
 
 ### Inspector
 
@@ -120,7 +121,9 @@ commands can be selected using the `Tab` key. Pressing the `Return` key will exe
 The list of commands can be set inside the inspector for the `DebugConsole` game object. By default, the following
 commands for the GameController are implemented:
 
-- `mainState`: Set the current main state. Accepts the state as either a numeric value or its string representation (
+- `MainState`: Set the current main state. Accepts the state as either a numeric value or its string representation (
   case-insensitive).
+- `Timecode`: Set the current value of the game's timecode. Must be a hexadecimal value.
 - `Timer`: Set the current value of the game's timer. Must be an integer value.
-- `quit`: Quit the application or sets the playing state of the Unity editor to false. Accepts no parameter value.
+- `Quit`: Quit the application or sets the playing state of the Unity editor to false. Accepts no parameter value.
+- `Restart`: Restart the game. Accepts no parameter value.
