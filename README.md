@@ -1,11 +1,15 @@
 # BETWEEN TIME
 
-**‘Between Time’** ist ein Koop-Rätsel-Spiel, welches in einer Art Escape-Room nach Vorbildern wie *We Were Here* oder *Keep Talking And Nobody Explodes* zwei Spieler in getrennten Dimensionen — einer mittels VR-Brille in einer virtuellen Umgebung und einer mit Zugriff auf einen eigens entwickelten physischen Controller — zur Kommunikation und Zusammenarbeit herausfordert, um innerhalb eines festen Zeitlimits eine Reihe von Puzzles zu lösen.
+**'Between Time'** is a co-op puzzle game that challenges two players in separate dimensions - one using VR goggles in a virtual environment and one with access to a specially developed [physical controller](https://github.com/duevil/Between-Time-Controller) - to communicate and work together to solve a series of puzzles within a fixed time limit in a kind of escape room along the lines of *We Were Here* or *Keep Talking And Nobody Explodes*.
 
-## Anleitung
+More details about the game can be found inside the [documentation (in German)](https://github.com/user-attachments/files/20357626/between-time.pdf).
 
-**Unity-Version:** 6000.0.26f1
+## Setup Guide
 
-Vor dem Starten des Spiels muss zunächst der [physische Controller](https://git.hs-harz.de/xrws24/xrws24/-/tree/BetweenTime-hardware) eingerichtet werden. Zudem muss ein MQTT-Broker (z.B. [Aedes](https://github.com/moscajs/aedes)) laufen, um die Kommunikation zwischen den beiden Systemen/Spielern zu ermöglichen. Die Host-Adresse des Brokers wird im Unity-Inspector des GameController-Skripts eingetragen. Der Port ist standardmäßig auf 1883 gesetzt.
+**Unity version:** 6000.0.26f1
 
-Nähere Details zum Spielablauf und den Puzzles sowie der Implementierung sind in der [Dokumentation]() zu finden.
+Before starting the game, the [physical controller](https://github.com/duevil/Between-Time-Controller) must first be set up. In addition, an MQTT broker (e.g. [Aedes](https://github.com/moscajs/aedes)) must be running to enable communication between the two systems/players. The host address of the broker is entered in the Unity Inspector of the GameController script. The port is set to 1883 by default.
+
+## Miscellaneous
+
+A statistic about the game's script files can be found [here](https://github.com/duevil/Between-Time/blob/BetweenTime/BetweenTime/Assets/BetweenTime/_Scripts/SCC.md).
